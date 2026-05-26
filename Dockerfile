@@ -1,10 +1,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy everything first (simple + reliable for Render)
 COPY . .
 
-# Restore + build using correct csproj path
 RUN dotnet restore Klikk/Klikk.csproj
 RUN dotnet publish Klikk/Klikk.csproj -c Release -o /app/publish
 
