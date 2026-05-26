@@ -37,19 +37,20 @@ StripeConfiguration.ApiKey =
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+app.Lifetime.ApplicationStarted.Register(async () =>
 {
-    var services = scope.ServiceProvider;
-
     try
     {
+        using var scope = app.Services.CreateScope();
+        var services = scope.ServiceProvider;
+
         await Klikk.SeedData.RoleSeeder.SeedRolesAsync(services);
     }
     catch (Exception ex)
     {
-        Console.WriteLine("Role seeding failed (app will still run): " + ex.Message);
+        Console.WriteLine("Role seeding failed (non-blocking): " + ex.Message);
     }
-}
+});
 
 if (!app.Environment.IsDevelopment())
 {
