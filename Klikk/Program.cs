@@ -10,7 +10,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        o => o.EnableRetryOnFailure()
+    ));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
@@ -23,10 +25,15 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<EmailService>();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 StripeConfiguration.ApiKey =
     builder.Configuration["Stripe:SecretKey"];
-
-builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -34,8 +41,14 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    await Klikk.SeedData.RoleSeeder
-        .SeedRolesAsync(services);
+    try
+    {
+        await Klikk.SeedData.RoleSeeder.SeedRolesAsync(services);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Role seeding failed (ignored): " + ex.Message);
+    }
 }
 
 if (!app.Environment.IsDevelopment())
@@ -53,7 +66,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.Urls.Add("http://0.0.0.0:10000");
 app.UseSession();
 
 
