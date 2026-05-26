@@ -1,0 +1,369 @@
+﻿@model IEnumerable<Klikk.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+
+    decimal total = 0;
+}
+
+<!-- ========================================
+     CART HERO
+======================================== -->
+
+<section class="cart-hero">
+
+    <div class="container">
+
+        <div class="cart-hero-card">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+
+                    <span class="cart-badge">
+
+                        🛒 Your Shopping Cart
+
+                    </span>
+
+                    <h1>
+
+                        Ready to <span>Checkout</span>?
+
+                    </h1>
+
+                    <p>
+
+                        Review your selected items,
+                        update quantities, and continue
+                        your Klikk shopping experience.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <div class="cart-stat-card">
+
+                        <h3>
+
+                            @Model.Count()
+
+                        </h3>
+
+                        <span>
+
+                            Cart Items
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     CART CONTENT
+======================================== -->
+
+<section class="cart-section">
+
+    <div class="container">
+
+        @if (!Model.Any())
+        {
+            <div class="cart-empty-card">
+
+                <div class="cart-empty-icon">
+
+                    <i class="bi bi-cart-x"></i>
+
+                </div>
+
+                <h2>
+
+                    Your Cart is Empty
+
+                </h2>
+
+                <p>
+
+                    Looks like you haven’t added
+                    any products to your cart yet.
+
+                </p>
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="btn klikk-btn-primary btn-lg mt-3">
+
+                    Continue Shopping
+
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+
+                <!-- CART ITEMS -->
+
+                <div class="col-lg-8">
+
+                    <div class="cart-items-wrapper">
+
+                        @foreach (var item in Model)
+                        {
+                            var subtotal = item.Product.Price * item.Quantity;
+
+                            total += subtotal;
+
+                            <div class="cart-item-card">
+
+                                <!-- IMAGE -->
+
+                                <div class="cart-item-image">
+
+                                    <img src="@(string.IsNullOrEmpty(item.Product.ImageUrl)
+                                                                                 ? "https://via.placeholder.com/500x300"
+                                                                                 : Url.Content("~/uploads/" + item.Product.ImageUrl))">
+
+                                </div>
+
+                                <!-- CONTENT -->
+
+                                <div class="cart-item-content">
+
+                                    <div class="cart-item-top">
+
+                                        <div>
+
+                                            <h4>
+
+                                                @item.Product.Name
+
+                                            </h4>
+
+                                            <p>
+
+                                                ₱@item.Product.Price each
+
+                                            </p>
+
+                                        </div>
+
+                                        <a asp-action="Remove"
+                                           asp-route-id="@item.Id"
+                                           class="cart-remove-btn">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </a>
+
+                                    </div>
+
+                                    <!-- QUANTITY -->
+
+                                    <div class="cart-item-bottom">
+
+                                        <div class="cart-quantity-controls">
+
+                                            <a asp-action="DecreaseQuantity"
+                                               asp-route-id="@item.Id"
+                                               class="quantity-btn">
+
+                                                -
+
+                                            </a>
+
+                                            <span>
+
+                                                @item.Quantity
+
+                                            </span>
+
+                                            <a asp-action="IncreaseQuantity"
+                                               asp-route-id="@item.Id"
+                                               class="quantity-btn">
+
+                                                +
+
+                                            </a>
+
+                                        </div>
+
+                                        <div class="cart-subtotal"
+                                             data-price="@subtotal">
+
+                                            ₱@subtotal
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="cart-checkbox me-3">
+
+                                        <input type="checkbox"
+                                               class="cart-check"
+                                               value="@item.Id"
+                                               checked
+                                               onchange="updateCheckoutSelection()" />
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            }
+
+                    </div>
+
+                </div>
+
+                <!-- SUMMARY -->
+
+                <div class="col-lg-4">
+
+                    <div class="cart-summary-card">
+
+                        <h3>
+
+                            Order Summary
+
+                        </h3>
+
+                        <div class="summary-row">
+
+                            <span>
+                                Items
+                            </span>
+
+                            <span>
+                                @Model.Count()
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>
+                                Shipping
+                            </span>
+
+                            <span>
+                                Free
+                            </span>
+
+                        </div>
+
+                        <div class="summary-divider"></div>
+
+                        <div class="summary-total">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <h2>
+
+                                ₱@total
+
+                            </h2>
+
+                        </div>
+
+                        <form id="checkoutForm"
+                              asp-controller="Orders"
+                              asp-action="CheckoutSelected"
+                              method="post">
+
+                            <input type="hidden"
+                                   id="selectedCartItems"
+                                   name="selectedCartItems" />
+
+                            <button type="submit"
+                                    class="btn checkout-btn w-100">
+
+                                Proceed to Checkout
+
+                            </button>
+
+                        </form>
+
+                        <a asp-controller="Products"
+                           asp-action="Index"
+                           class="btn continue-shopping-btn w-100">
+
+                            Continue Shopping
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</section>
+
+@section Scripts {
+
+    <script>
+
+        function updateCheckoutSelection() {
+
+            let checkboxes =
+                document.querySelectorAll(".cart-check");
+
+            let selectedIds = [];
+
+            let total = 0;
+
+            checkboxes.forEach(cb => {
+
+                if (cb.checked) {
+
+                    selectedIds.push(cb.value);
+
+                    let subtotalElement =
+                        cb.closest(".cart-item-card")
+                          .querySelector(".cart-subtotal");
+
+                    total += parseFloat(
+                        subtotalElement.dataset.price
+                    );
+                }
+            });
+
+            // UPDATE HIDDEN INPUT
+
+            document.getElementById(
+                "selectedCartItems"
+            ).value = selectedIds.join(",");
+
+            // UPDATE TOTAL
+
+            document.querySelector(
+                ".summary-total h2"
+            ).innerText = "₱" + total.toFixed(2);
+        }
+
+        // RUN ON PAGE LOAD
+
+        updateCheckoutSelection();
+
+    </script>
+
+}

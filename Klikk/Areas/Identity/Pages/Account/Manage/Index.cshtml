@@ -1,0 +1,86 @@
+﻿@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<div class="account-card">
+
+    <div class="account-card-header">
+
+        <span class="account-badge">
+            Account Settings
+        </span>
+
+        <h2>
+            Profile Information
+        </h2>
+
+        <p>
+            Manage your personal account details and profile information.
+        </p>
+
+    </div>
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    <form id="profile-form"
+          method="post"
+          class="account-form">
+
+        <div asp-validation-summary="ModelOnly"
+             class="alert alert-danger"
+             role="alert">
+        </div>
+
+        <!-- USERNAME -->
+
+        <div class="auth-input-group">
+
+            <label asp-for="Username">
+                Username
+            </label>
+
+            <input asp-for="Username"
+                   class="form-control auth-input"
+                   disabled />
+
+        </div>
+
+        <!-- PHONE -->
+
+        <div class="auth-input-group">
+
+            <label asp-for="Input.PhoneNumber">
+                Phone Number
+            </label>
+
+            <input asp-for="Input.PhoneNumber"
+                   class="form-control auth-input"
+                   placeholder="Enter your phone number" />
+
+            <span asp-validation-for="Input.PhoneNumber"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <!-- BUTTON -->
+
+        <button id="update-profile-button"
+                type="submit"
+                class="btn auth-submit-btn">
+
+            Save Changes
+
+        </button>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

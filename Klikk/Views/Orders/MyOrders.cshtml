@@ -1,0 +1,242 @@
+﻿@model IEnumerable<Klikk.Models.Order>
+
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<!-- ========================================
+     ORDERS HERO
+======================================== -->
+
+<section class="orders-hero">
+
+    <div class="container">
+
+        <div class="orders-hero-card">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+
+                    <span class="orders-badge">
+
+                        📦 Purchase History
+
+                    </span>
+
+                    <h1>
+
+                        My <span>Orders</span>
+
+                    </h1>
+
+                    <p>
+
+                        Track your purchases,
+                        review previous orders,
+                        and monitor payment
+                        statuses with Klikk.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <div class="orders-stat-card">
+
+                        <h3>
+
+                            @Model.Count()
+
+                        </h3>
+
+                        <span>
+
+                            Total Orders
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     ORDERS CONTENT
+======================================== -->
+
+<section class="orders-section">
+
+    <div class="container">
+
+        @if (!Model.Any())
+        {
+            <div class="orders-empty-card">
+
+                <div class="orders-empty-icon">
+
+                    <i class="bi bi-bag-x"></i>
+
+                </div>
+
+                <h2>
+
+                    No Orders Yet
+
+                </h2>
+
+                <p>
+
+                    Start shopping and your
+                    orders will appear here.
+
+                </p>
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="btn klikk-btn-primary btn-lg mt-3">
+
+                    Browse Products
+
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="orders-wrapper">
+
+                @foreach (var item in Model)
+                {
+                    <div class="order-card">
+
+                        <!-- TOP -->
+
+                        <div class="order-card-top">
+
+                            <div>
+
+                                <span class="order-id">
+
+                                    Order #@item.Id
+
+                                </span>
+
+                                <h3>
+
+                                    ₱@item.TotalAmount
+
+                                </h3>
+
+                            </div>
+
+                            <div>
+
+                                @if (item.Status == "Paid")
+                                {
+                                    <span class="order-status paid-status">
+
+                                        @item.Status
+
+                                    </span>
+                                }
+                                else if (item.Status == "Pending")
+                                {
+                                    <span class="order-status pending-status">
+
+                                        @item.Status
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="order-status">
+
+                                        @item.Status
+
+                                    </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+                        <!-- MIDDLE -->
+
+                        <div class="order-card-middle">
+
+                            <div class="order-info-item">
+
+                                <span>
+                                    Order Date
+                                </span>
+
+                                <strong>
+
+                                    @item.OrderDate.ToString("MMMM dd, yyyy")
+
+                                </strong>
+
+                            </div>
+
+                            <div class="order-info-item">
+
+                                <span>
+                                    Payment
+                                </span>
+
+                                <strong>
+
+                                    Stripe Checkout
+
+                                </strong>
+
+                            </div>
+
+                            <div class="order-info-item">
+
+                                <span>
+                                    Status
+                                </span>
+
+                                <strong>
+
+                                    @item.Status
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <!-- BOTTOM -->
+
+                        <div class="order-card-bottom">
+
+                            <a asp-action="Details"
+                               asp-route-id="@item.Id"
+                               class="btn order-details-btn">
+
+                                View Details
+
+                            </a>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        }
+
+    </div>
+
+</section>

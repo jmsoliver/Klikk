@@ -1,0 +1,394 @@
+﻿@model IEnumerable<Klikk.Models.Product>
+
+@{
+    ViewData["Title"] = "Shop";
+}
+
+<!-- ========================================
+     SHOP HERO
+======================================== -->
+
+<section class="shop-hero">
+
+    <div class="container">
+
+        <div class="shop-hero-card">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+
+                    <span class="shop-badge">
+
+                        🛍 Discover Modern Products
+
+                    </span>
+
+                    <h1>
+
+                        Explore the <span>Klikk</span> Store
+
+                    </h1>
+
+                    <p>
+
+                        Browse trending products,
+                        premium essentials, and
+                        everyday favorites curated
+                        for modern shoppers.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <div class="shop-mini-stats">
+
+                        <div class="mini-stat-card">
+
+                            <h3>
+                                @Model.Count()
+                            </h3>
+
+                            <span>
+                                Products
+                            </span>
+
+                        </div>
+
+                        <div class="mini-stat-card">
+
+                            <h3>
+                                @ViewBag.Categories.Count
+                            </h3>
+
+                            <span>
+                                Categories
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     FILTERS
+======================================== -->
+
+<section class="shop-filter-section">
+
+    <div class="container">
+
+        <div class="shop-filter-card">
+
+            <form method="get">
+
+                <div class="row g-3 align-items-center">
+
+                    <!-- SEARCH -->
+
+                    <div class="col-lg-4">
+
+                        <div class="shop-search-wrapper">
+
+                            <i class="bi bi-search"></i>
+
+                            <input type="text"
+                                   name="searchString"
+                                   class="form-control"
+                                   placeholder="Search products..."
+                                   value="@ViewData["CurrentFilter"]" />
+
+                        </div>
+
+                    </div>
+
+                    <!-- CATEGORY -->
+
+                    <div class="col-lg-3">
+
+                        <select name="categoryId"
+                                class="form-select klikk-select">
+
+                            <option value="">
+                                All Categories
+                            </option>
+
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                if (ViewData["CurrentCategory"]?.ToString() == category.Id.ToString())
+                                {
+                                    <option value="@category.Id" selected>
+                                        @category.Name
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@category.Id">
+                                        @category.Name
+                                    </option>
+                                }
+                            }
+
+                        </select>
+
+                    </div>
+
+                    <!-- SORT -->
+
+                    <div class="col-lg-3">
+
+                        <select name="sortOrder"
+                                class="form-select klikk-select">
+
+                            <option value="">
+                                Sort By
+                            </option>
+
+                            <option value="price_asc"
+                                    selected="@(ViewData["CurrentSort"]?.ToString() == "price_asc")">
+
+                                Price: Low to High
+
+                            </option>
+
+                            <option value="price_desc"
+                                    selected="@(ViewData["CurrentSort"]?.ToString() == "price_desc")">
+
+                                Price: High to Low
+
+                            </option>
+
+                            <option value="name_asc"
+                                    selected="@(ViewData["CurrentSort"]?.ToString() == "name_asc")">
+
+                                Name: A-Z
+
+                            </option>
+
+                            <option value="name_desc"
+                                    selected="@(ViewData["CurrentSort"]?.ToString() == "name_desc")">
+
+                                Name: Z-A
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- BUTTON -->
+
+                    <div class="col-lg-2">
+
+                        <button type="submit"
+                                class="btn klikk-btn-primary w-100">
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     PRODUCTS
+======================================== -->
+
+<section class="shop-products-section">
+
+    <div class="container">
+
+        <div class="shop-header-row">
+
+            <div>
+
+                <h2>
+
+                    Shop Products
+
+                </h2>
+
+                <p>
+
+                    Showing modern products available in Klikk
+
+                </p>
+
+            </div>
+
+        </div>
+
+        @if (Model.Any())
+        {
+            <div class="row g-4">
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+
+                        <div class="shop-product-card clickable-card"
+                             onclick="window.location='@Url.Action("Details", "Products", new { id = item.Id })'">
+
+                            <!-- IMAGE -->
+
+                            <div class="shop-product-image">
+
+                                <img src="@(string.IsNullOrEmpty(item.ImageUrl)
+                                                                         ? "https://via.placeholder.com/500x300"
+                                                                         : Url.Content("~/uploads/" + item.ImageUrl))">
+
+                                <div class="product-overlay-buttons">
+
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.Id"
+                                       class="overlay-btn"
+                                       onclick="event.stopPropagation();">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </a>
+
+                                    <a asp-controller="Cart"
+                                       asp-action="AddToCart"
+                                       asp-route-productId="@item.Id"
+                                       class="overlay-btn"
+                                       onclick="event.stopPropagation();">
+
+                                        <i class="bi bi-cart-plus"></i>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                            <!-- BODY -->
+
+                            <div class="shop-product-body">
+
+                                <span class="product-category">
+
+                                    @(item.Category?.Name ?? "General")
+
+                                </span>
+
+                                <h4>
+
+                                    @item.Name
+
+                                </h4>
+
+                                <p>
+
+                                    @(item.Description.Length > 90
+                                                                ? item.Description.Substring(0, 90) + "..."
+                                                                : item.Description)
+
+                        </p>
+
+                                <div class="shop-product-footer">
+
+                                    <div>
+
+                                        <h5>
+
+                                            ₱@item.Price
+
+                                        </h5>
+
+                                        <span>
+
+                                            Stock:
+                                            @item.StockQuantity
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- HOVER ACTIONS -->
+
+                                <div class="shop-hover-actions">
+
+                                    <a asp-controller="Cart"
+                                       asp-action="AddToCart"
+                                       asp-route-productId="@item.Id"
+                                       class="shop-add-btn"
+                                       onclick="event.stopPropagation();">
+
+                                        <i class="bi bi-cart-plus"></i>
+
+                                        Add to Cart
+
+                                    </a>
+
+                                    <a asp-controller="Orders"
+                                       asp-action="BuyNow"
+                                       asp-route-productId="@item.Id"
+                                       class="shop-buy-btn"
+                                       onclick="event.stopPropagation();">
+
+                                        <i class="bi bi-lightning-charge-fill"></i>
+
+                                        Buy Now
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                        }
+
+            </div>
+        }
+        else
+        {
+            <div class="empty-products-card">
+
+                <i class="bi bi-search"></i>
+
+                <h3>
+
+                    No Products Found
+
+                </h3>
+
+                <p>
+
+                    Try adjusting your search,
+                    category, or sorting filters.
+
+                </p>
+
+            </div>
+        }
+
+    </div>
+
+
+</section>

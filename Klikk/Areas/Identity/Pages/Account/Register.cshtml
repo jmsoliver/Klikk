@@ -1,0 +1,255 @@
+﻿@page
+@model RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<!-- ========================================
+     AUTH PAGE
+======================================== -->
+
+<section class="auth-section">
+
+    <div class="container">
+
+        <div class="auth-wrapper">
+
+            <div class="row g-0">
+
+                <!-- LEFT SIDE -->
+
+                <div class="col-lg-6">
+
+                    <div class="auth-brand-side">
+
+                        <span class="auth-badge">
+
+                            Join Klikk ✨
+
+                        </span>
+
+                        <h1>
+
+                            Start Shopping with <span>Klikk</span>
+
+                        </h1>
+
+                        <p>
+
+                            Create your account and unlock
+                            a faster, smarter, and more modern
+                            ecommerce experience.
+
+                        </p>
+
+                        <div class="auth-features">
+
+                            <div class="auth-feature-item">
+
+                                <i class="bi bi-lightning-charge"></i>
+
+                                <span>
+                                    Seamless Shopping Experience
+                                </span>
+
+                            </div>
+
+                            <div class="auth-feature-item">
+
+                                <i class="bi bi-heart-fill"></i>
+
+                                <span>
+                                    Save Products to Wishlist
+                                </span>
+
+                            </div>
+
+                            <div class="auth-feature-item">
+
+                                <i class="bi bi-credit-card"></i>
+
+                                <span>
+                                    Secure Stripe Payments
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT SIDE -->
+
+                <div class="col-lg-6">
+
+                    <div class="auth-form-side">
+
+                        <div class="auth-form-wrapper">
+
+                            <h2>
+
+                                Create Account
+
+                            </h2>
+
+                            <p class="auth-subtitle">
+
+                                Register below to start your Klikk journey.
+
+                            </p>
+
+                            <form id="registerForm"
+                                  asp-route-returnUrl="@Model.ReturnUrl"
+                                  method="post">
+
+                                <div asp-validation-summary="ModelOnly"
+                                     class="alert alert-danger"
+                                     role="alert">
+                                </div>
+
+                                <!-- EMAIL -->
+
+                                <div class="auth-input-group">
+
+                                    <label asp-for="Input.Email">
+
+                                        Email Address
+
+                                    </label>
+
+                                    <input asp-for="Input.Email"
+                                           class="form-control auth-input"
+                                           autocomplete="username"
+                                           placeholder="name@example.com" />
+
+                                    <span asp-validation-for="Input.Email"
+                                          class="text-danger">
+                                    </span>
+
+                                </div>
+
+                                <!-- PASSWORD -->
+
+                                <div class="auth-input-group">
+
+                                    <label asp-for="Input.Password">
+
+                                        Password
+
+                                    </label>
+
+                                    <input asp-for="Input.Password"
+                                           class="form-control auth-input"
+                                           autocomplete="new-password"
+                                           placeholder="Create a password" />
+
+                                    <span asp-validation-for="Input.Password"
+                                          class="text-danger">
+                                    </span>
+
+                                </div>
+
+                                <!-- CONFIRM PASSWORD -->
+
+                                <div class="auth-input-group">
+
+                                    <label asp-for="Input.ConfirmPassword">
+
+                                        Confirm Password
+
+                                    </label>
+
+                                    <input asp-for="Input.ConfirmPassword"
+                                           class="form-control auth-input"
+                                           autocomplete="new-password"
+                                           placeholder="Confirm your password" />
+
+                                    <span asp-validation-for="Input.ConfirmPassword"
+                                          class="text-danger">
+                                    </span>
+
+                                </div>
+
+                                <!-- BUTTON -->
+
+                                <button id="registerSubmit"
+                                        type="submit"
+                                        class="btn auth-submit-btn">
+
+                                    Create Klikk Account
+
+                                </button>
+
+                                <!-- LINKS -->
+
+                                <div class="auth-links">
+
+                                    <a asp-page="./Login"
+                                       asp-route-returnUrl="@Model.ReturnUrl">
+
+                                        Already have an account?
+
+                                    </a>
+
+                                </div>
+
+                            </form>
+
+                            <!-- EXTERNAL LOGIN -->
+                            @if ((Model.ExternalLogins?.Count ?? 0) > 0)
+                            {
+                                <div class="auth-divider">
+
+                                    <span>
+
+                                        OR REGISTER WITH
+
+                                    </span>
+
+                                </div>
+
+                                <form id="external-account"
+                                      asp-page="./ExternalLogin"
+                                      asp-route-returnUrl="@Model.ReturnUrl"
+                                      method="post">
+
+                                    <div class="d-flex flex-wrap gap-3">
+
+                                        @foreach (var provider in Model.ExternalLogins!)
+                                        {
+                                            <button type="submit"
+                                                    class="btn auth-social-btn"
+                                                    name="provider"
+                                                    value="@provider.Name"
+                                                    title="Register using your @provider.DisplayName account">
+
+                                                @provider.DisplayName
+
+                                            </button>
+                                        }
+
+                                    </div>
+
+                                </form>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,285 @@
+﻿@model IEnumerable<Klikk.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Checkout";
+
+    decimal total = 0;
+}
+
+<!-- ========================================
+     CHECKOUT HERO
+======================================== -->
+
+<section class="checkout-hero">
+
+    <div class="container">
+
+        <div class="checkout-hero-card">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+
+                    <span class="checkout-badge">
+
+                        💳 Secure Checkout
+
+                    </span>
+
+                    <h1>
+
+                        Finalize Your <span>Order</span>
+
+                    </h1>
+
+                    <p>
+
+                        Review your selected products
+                        before completing your Klikk
+                        purchase securely.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <div class="checkout-stat-card">
+
+                        <h3>
+
+                            @Model.Sum(x => x.Quantity)
+
+                        </h3>
+
+                        <span>
+
+                            Total Items
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     CHECKOUT CONTENT
+======================================== -->
+
+<section class="checkout-section">
+
+    <div class="container">
+
+        @if (!Model.Any())
+        {
+            <div class="checkout-empty-card">
+
+                <div class="checkout-empty-icon">
+
+                    <i class="bi bi-cart-x"></i>
+
+                </div>
+
+                <h2>
+
+                    No Items for Checkout
+
+                </h2>
+
+                <p>
+
+                    Your cart is currently empty.
+
+                </p>
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="btn klikk-btn-primary btn-lg mt-3">
+
+                    Continue Shopping
+
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+
+                <!-- ITEMS -->
+
+                <div class="col-lg-8">
+
+                    <div class="cart-items-wrapper">
+
+                        @foreach (var item in Model)
+                        {
+                            var subtotal = item.Product.Price * item.Quantity;
+
+                            total += subtotal;
+
+                            <div class="cart-item-card">
+
+                                <!-- IMAGE -->
+
+                                <div class="cart-item-image">
+
+                                    <img src="@(string.IsNullOrEmpty(item.Product.ImageUrl)
+                                                                                 ? "https://via.placeholder.com/500x300"
+                                                                                 : Url.Content("~/uploads/" + item.Product.ImageUrl))">
+
+                        </div>
+
+                                <!-- CONTENT -->
+
+                                <div class="cart-item-content">
+
+                                    <div class="cart-item-top">
+
+                                        <div>
+
+                                            <h4>
+
+                                                @item.Product.Name
+
+                                            </h4>
+
+                                            <p>
+
+                                                ₱@item.Product.Price each
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- BOTTOM -->
+
+                                    <div class="cart-item-bottom">
+
+                                        <div class="order-quantity-badge">
+
+                                            Qty: @item.Quantity
+
+                                        </div>
+
+                                        <div class="cart-subtotal">
+
+                                            ₱@subtotal
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                                        }
+
+                    </div>
+
+                </div>
+
+                <!-- SUMMARY -->
+
+                <div class="col-lg-4">
+
+                    <div class="cart-summary-card">
+
+                        <h3>
+
+                            Payment Summary
+
+                        </h3>
+
+                        <div class="summary-row">
+
+                            <span>
+                                Items
+                            </span>
+
+                            <span>
+                                @Model.Sum(x => x.Quantity)
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>
+                                Shipping
+                            </span>
+
+                            <span>
+                                Free
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>
+                                Payment
+                            </span>
+
+                            <span>
+                                Stripe
+                            </span>
+
+                        </div>
+
+                        <div class="summary-divider"></div>
+
+                        <div class="summary-total">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <h2>
+
+                                ₱@total
+
+                            </h2>
+
+                        </div>
+
+                        <form asp-action="PlaceOrder"
+                              method="post">
+
+                            <button type="submit"
+                                    class="btn checkout-btn w-100">
+
+                                Place Order
+
+                            </button>
+
+                        </form>
+
+                        <a asp-controller="Cart"
+                           asp-action="Index"
+                           class="btn continue-shopping-btn w-100 mt-3">
+
+                            Back to Cart
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</section>

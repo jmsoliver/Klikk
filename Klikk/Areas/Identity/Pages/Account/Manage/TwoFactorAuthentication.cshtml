@@ -1,0 +1,241 @@
+﻿@page
+@using Microsoft.AspNetCore.Http.Features
+@model TwoFactorAuthenticationModel
+
+@{
+    ViewData["Title"] = "Two-Factor Authentication";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<div class="account-card">
+
+    <div class="account-card-header">
+
+        <span class="account-badge">
+            Advanced Security
+        </span>
+
+        <h2>
+            Two-Factor Authentication
+        </h2>
+
+        <p>
+            Add an extra layer of protection to your Klikk account using
+            an authenticator app and recovery codes.
+        </p>
+
+    </div>
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    @{
+        var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
+    }
+
+    @if (consentFeature?.CanTrack ?? true)
+    {
+        <!-- 2FA STATUS -->
+
+        <div class="security-status-card">
+
+            <div class="security-status-icon">
+
+                @if (Model.Is2faEnabled)
+                {
+                    <i class="bi bi-shield-check"></i>
+                }
+                else
+                {
+                    <i class="bi bi-shield"></i>
+                }
+
+            </div>
+
+            <div class="security-status-content">
+
+                @if (Model.Is2faEnabled)
+                {
+                    <h5>
+                        Two-Factor Authentication Enabled
+                    </h5>
+
+                    <p>
+                        Your account has additional protection enabled.
+                    </p>
+                }
+                else
+                {
+                    <h5>
+                        Two-Factor Authentication Disabled
+                    </h5>
+
+                    <p>
+                        Enable 2FA to better secure your account.
+                    </p>
+                }
+
+            </div>
+
+        </div>
+
+        <!-- RECOVERY CODES -->
+        @if (Model.Is2faEnabled)
+        {
+            if (Model.RecoveryCodesLeft == 0)
+            {
+                <div class="security-alert danger">
+
+                    <i class="bi bi-exclamation-triangle"></i>
+
+                    <div>
+
+                        <strong>
+                            No recovery codes remaining.
+                        </strong>
+
+                        <p>
+                            Generate a new set of recovery codes to avoid
+                            getting locked out of your account.
+                        </p>
+
+                    </div>
+
+                </div>
+            }
+            else if (Model.RecoveryCodesLeft <= 3)
+            {
+                <div class="security-alert warning">
+
+                    <i class="bi bi-exclamation-circle"></i>
+
+                    <div>
+
+                        <strong>
+                            @Model.RecoveryCodesLeft recovery codes remaining.
+                        </strong>
+
+                        <p>
+                            You should generate a new recovery code set soon.
+                        </p>
+
+                    </div>
+
+                </div>
+            }
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="security-actions">
+
+                @if (Model.IsMachineRemembered)
+                {
+                    <form method="post">
+
+                        <button type="submit"
+                                class="btn auth-secondary-btn">
+
+                            Forget This Browser
+
+                        </button>
+
+                    </form>
+                }
+
+                <a asp-page="./Disable2fa"
+                   class="btn auth-danger-btn">
+
+                    Disable 2FA
+
+                </a>
+
+                <a asp-page="./GenerateRecoveryCodes"
+                   class="btn auth-secondary-btn">
+
+                    Reset Recovery Codes
+
+                </a>
+
+            </div>
+        }
+
+        <!-- AUTHENTICATOR -->
+
+        <div class="security-section">
+
+            <div class="security-section-header">
+
+                <div>
+
+                    <h4>
+                        Authenticator App
+                    </h4>
+
+                    <p>
+                        Connect your authenticator application for secure sign in verification.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="security-actions">
+
+                @if (!Model.HasAuthenticator)
+                {
+                    <a id="enable-authenticator"
+                       asp-page="./EnableAuthenticator"
+                       class="btn auth-submit-btn">
+
+                        Add Authenticator App
+
+                    </a>
+                }
+                else
+                {
+                    <a id="enable-authenticator"
+                       asp-page="./EnableAuthenticator"
+                       class="btn auth-submit-btn">
+
+                        Configure Authenticator
+
+                    </a>
+
+                    <a id="reset-authenticator"
+                       asp-page="./ResetAuthenticator"
+                       class="btn auth-secondary-btn">
+
+                        Reset Authenticator
+
+                    </a>
+                }
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="security-alert danger">
+
+            <i class="bi bi-shield-exclamation"></i>
+
+            <div>
+
+                <strong>
+                    Cookie consent required.
+                </strong>
+
+                <p>
+                    You must accept the privacy and cookie policy before enabling 2FA.
+                </p>
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

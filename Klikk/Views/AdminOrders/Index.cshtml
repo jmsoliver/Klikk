@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Klikk.Models.Order>
+
+@{
+    ViewData["Title"] = "Admin Orders";
+}
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Order Management
+            </h2>
+
+            <p class="text-muted mb-0">
+                View and manage all customer orders
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ORDERS LIST -->
+
+    <div class="row g-4">
+
+        @foreach (var order in Model)
+        {
+            <div class="col-12">
+
+                <div class="card shadow-sm border-0 shop-product-card">
+
+                    <div class="card-body">
+
+                        <!-- TOP ROW -->
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+
+                            <div>
+
+                                <h5 class="mb-1 fw-bold">
+                                    Order #@order.Id
+                                </h5>
+
+                                <small class="text-muted">
+                                    @order.OrderDate.ToString("MMM dd, yyyy - hh:mm tt")
+                                </small>
+
+                            </div>
+
+                            <div class="text-end">
+
+                                <span class="badge bg-primary">
+                                    @order.Status
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <!-- ORDER INFO -->
+
+                        <div class="row">
+
+                            <div class="col-md-4">
+
+                                <p class="text-muted mb-1">
+                                    Total Amount
+                                </p>
+
+                                <h4 class="fw-bold text-success">
+                                    ₱@order.TotalAmount
+                                </h4>
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <p class="text-muted mb-1">
+                                    Items
+                                </p>
+
+                                <h5 class="fw-bold">
+                                    @(order.OrderItems?.Count ?? 0)
+                                </h5>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</div>

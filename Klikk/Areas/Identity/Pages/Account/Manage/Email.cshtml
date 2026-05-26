@@ -1,0 +1,119 @@
+﻿@page
+@model EmailModel
+
+@{
+    ViewData["Title"] = "Manage Email";
+    ViewData["ActivePage"] = ManageNavPages.Email;
+}
+
+<div class="account-card">
+
+    <div class="account-card-header">
+
+        <span class="account-badge">
+            Email Settings
+        </span>
+
+        <h2>
+            Manage Email
+        </h2>
+
+        <p>
+            Update your email address and manage your account verification status.
+        </p>
+
+    </div>
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    <form id="email-form"
+          method="post"
+          class="account-form">
+
+        <div asp-validation-summary="All"
+             class="alert alert-danger"
+             role="alert">
+        </div>
+
+        <!-- CURRENT EMAIL -->
+
+        <div class="auth-input-group">
+
+            <label asp-for="Email">
+                Current Email
+            </label>
+
+            @if (Model.IsEmailConfirmed)
+            {
+                <div class="verified-input-wrapper">
+
+                    <input asp-for="Email"
+                           class="form-control auth-input"
+                           disabled />
+
+                    <div class="verified-badge">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Verified
+
+                    </div>
+
+                </div>
+            }
+            else
+            {
+                <input asp-for="Email"
+                       class="form-control auth-input"
+                       disabled />
+
+                <button id="email-verification"
+                        type="submit"
+                        asp-page-handler="SendVerificationEmail"
+                        class="btn resend-btn">
+
+                    Send Verification Email
+
+                </button>
+            }
+
+        </div>
+
+        <!-- NEW EMAIL -->
+
+        <div class="auth-input-group">
+
+            <label asp-for="Input.NewEmail">
+                New Email Address
+            </label>
+
+            <input asp-for="Input.NewEmail"
+                   class="form-control auth-input"
+                   autocomplete="email"
+                   aria-required="true"
+                   placeholder="Enter your new email address" />
+
+            <span asp-validation-for="Input.NewEmail"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <!-- BUTTON -->
+
+        <button id="change-email-button"
+                type="submit"
+                asp-page-handler="ChangeEmail"
+                class="btn auth-submit-btn">
+
+            Update Email
+
+        </button>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

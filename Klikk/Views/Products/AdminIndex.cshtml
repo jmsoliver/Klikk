@@ -1,0 +1,246 @@
+﻿@model IEnumerable<Klikk.Models.Product>
+
+@{
+    ViewData["Title"] = "Product Management";
+}
+
+<!-- ========================================
+     ADMIN HERO
+======================================== -->
+
+<section class="orders-hero">
+
+    <div class="container">
+
+        <div class="orders-hero-card">
+
+            <div class="row align-items-center">
+
+                <!-- LEFT -->
+
+                <div class="col-lg-7">
+
+                    <span class="orders-badge">
+                        📦 Product Control Panel
+                    </span>
+
+                    <h1>
+                        Manage <span>Inventory</span>
+                    </h1>
+
+                    <p>
+                        Add, update, and organize your product catalog.
+                        Keep stock levels accurate and listings optimized.
+                    </p>
+
+                </div>
+
+                <!-- RIGHT CTA -->
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <a asp-action="Create"
+                       class="klikk-btn-primary btn btn-lg">
+
+                        + Add New Product
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     SEARCH SECTION
+======================================== -->
+
+<section class="shop-filter-section">
+
+    <div class="container">
+
+        <div class="shop-filter-card">
+
+            <form method="get">
+
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-md-10">
+
+                        <div class="shop-search-wrapper">
+
+                            <i class="bi bi-search"></i>
+
+                            <input type="text"
+                                   name="searchString"
+                                   class="form-control"
+                                   placeholder="Search products by name, category, or keyword..." />
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button class="klikk-btn-primary w-100">
+                            Search
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     PRODUCT TABLE
+======================================== -->
+
+<section class="shop-products-section">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <h2>Product List</h2>
+
+            <p>Manage your full catalog in one place</p>
+
+        </div>
+
+        <div class="shop-filter-card p-0 overflow-hidden">
+
+            <div class="table-responsive">
+
+                <table class="table align-middle mb-0">
+
+                    <thead style="background:#1F2430; color:white;">
+
+                        <tr>
+
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th class="text-end">Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <!-- PRODUCT -->
+
+                                <td class="d-flex align-items-center gap-3">
+
+                                    <img src="@(string.IsNullOrEmpty(item.ImageUrl)
+                                                                                         ? "https://via.placeholder.com/80"
+                                                                                         : Url.Content("~/uploads/" + item.ImageUrl))"
+                                                                                                                                     style="width:70px;height:70px;object-fit:cover;border-radius:16px;">
+
+                                    <div>
+
+                                        <div class="fw-bold">
+                                            @item.Name
+                                        </div>
+
+                                        <small class="text-muted">
+                                            @(item.Description?.Length > 60
+                                                                                    ? item.Description.Substring(0, 60) + "..."
+                                                                                    : item.Description)
+                                    </small>
+
+                                    </div>
+
+                                </td>
+
+                                <!-- PRICE -->
+
+                                <td class="fw-bold" style="color:var(--primary); font-size:1.1rem;">
+                                    ₱@item.Price
+                                </td>
+
+                                <!-- STOCK -->
+
+                                <td>
+
+                                @if (item.StockQuantity <= 5)
+                                    {
+                                        <span class="badge bg-danger px-3 py-2">
+                                            Low (@item.StockQuantity)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge px-3 py-2"
+                                              style="background:rgba(75,203,164,.15); color:#159570;">
+                                            @item.StockQuantity
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <!-- ACTIONS -->
+
+                                <td class="text-end">
+
+                                    <div class="d-flex justify-content-end gap-2">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm klikk-btn-outline">
+
+                                            Edit
+
+                                        </a>
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm klikk-btn-primary">
+
+                                            View
+
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-danger"
+                                           style="border-radius:50px;">
+
+                                            Delete
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

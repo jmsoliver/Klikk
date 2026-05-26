@@ -1,0 +1,543 @@
+﻿@model List<Klikk.Models.Product>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- ========================================
+     HERO SECTION
+======================================== -->
+
+<section class="hero-section">
+
+    <div class="container">
+
+        <div class="row g-4 align-items-stretch">
+
+            <!-- MAIN HERO -->
+
+            <div class="col-lg-8">
+
+                <div class="hero-main">
+
+                    <div class="hero-content">
+
+                        <span class="hero-badge">
+
+                            ✨ Modern Shopping Experience
+
+                        </span>
+
+                        <h1>
+
+                            Shop Smarter <br />
+                            with <span>Klikk</span>
+
+                        </h1>
+
+                        <p>
+
+                            Discover trending products,
+                            premium essentials, and modern
+                            ecommerce convenience all in one place.
+
+                        </p>
+
+                        <div class="hero-buttons">
+
+                            <a asp-controller="Products"
+                               asp-action="Index"
+                               class="btn klikk-btn-primary btn-lg">
+
+                                Shop Now
+
+                            </a>
+
+                            <a asp-controller="Products"
+                               asp-action="Index"
+                               class="btn hero-secondary-btn btn-lg">
+
+                                Explore Products
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SIDE PROMOS -->
+
+            <div class="col-lg-4">
+
+                <div class="promo-column">
+
+                    <div class="promo-card mint-card">
+
+                        <div>
+
+                            <h4>
+                                Free Shipping
+                            </h4>
+
+                            <p>
+                                For orders over ₱999
+                            </p>
+
+                        </div>
+
+                        <i class="bi bi-truck"></i>
+
+                    </div>
+
+                    <div class="promo-card yellow-card">
+
+                        <div>
+
+                            <h4>
+                                Daily Deals
+                            </h4>
+
+                            <p>
+                                Save up to 50% today
+                            </p>
+
+                        </div>
+
+                        <i class="bi bi-lightning-charge"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     CATEGORY SECTION
+======================================== -->
+
+<section class="category-section">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <h2>
+                Browse Categories
+            </h2>
+
+            <p>
+                Explore popular product categories
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- CATEGORY ITEM -->
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="category-card">
+
+                    <div class="category-icon">
+
+                        <!-- REPLACE ICON LATER -->
+
+                        <i class="bi bi-phone"></i>
+
+                    </div>
+
+                    <span>
+                        Electronics
+                    </span>
+
+                </a>
+
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="category-card">
+
+                    <div class="category-icon">
+
+                        <i class="bi bi-bag"></i>
+
+                    </div>
+
+                    <span>
+                        Fashion
+                    </span>
+
+                </a>
+
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="category-card">
+
+                    <div class="category-icon">
+
+                        <i class="bi bi-house"></i>
+
+                    </div>
+
+                    <span>
+                        Home
+                    </span>
+
+                </a>
+
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="category-card">
+
+                    <div class="category-icon">
+
+                        <i class="bi bi-controller"></i>
+
+                    </div>
+
+                    <span>
+                        Gaming
+                    </span>
+
+                </a>
+
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="category-card">
+
+                    <div class="category-icon">
+
+                        <i class="bi bi-watch"></i>
+
+                    </div>
+
+                    <span>
+                        Accessories
+                    </span>
+
+                </a>
+
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="category-card">
+
+                    <div class="category-icon">
+
+                        <i class="bi bi-stars"></i>
+
+                    </div>
+
+                    <span>
+                        Trending
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     FEATURES
+======================================== -->
+
+<section class="feature-section">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <h2>
+                Why Shop With Klikk?
+            </h2>
+
+            <p>
+                Built for modern ecommerce convenience
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- FEATURE -->
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-credit-card"></i>
+
+                    </div>
+
+                    <h4>
+                        Fast Checkout
+                    </h4>
+
+                    <p>
+
+                        Secure Stripe-powered payments
+                        for smooth transactions.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon mint-bg">
+
+                        <i class="bi bi-star"></i>
+
+                    </div>
+
+                    <h4>
+                        Trusted Reviews
+                    </h4>
+
+                    <p>
+
+                        Real customer ratings help
+                        shoppers buy confidently.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon yellow-bg">
+
+                        <i class="bi bi-heart"></i>
+
+                    </div>
+
+                    <h4>
+                        Wishlist System
+                    </h4>
+
+                    <p>
+
+                        Save your favorite products
+                        and revisit them anytime.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     TRENDING PRODUCTS
+======================================== -->
+
+<section class="trending-section">
+
+    <div class="container">
+
+        <div class="section-header d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <h2>
+                    Trending Products
+                </h2>
+
+                <p>
+                    Discover what shoppers love today
+                </p>
+
+            </div>
+
+            <a asp-controller="Products"
+               asp-action="Index"
+               class="view-all-btn">
+
+                View All
+
+            </a>
+
+        </div>
+
+        <div class="row g-4">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-4 col-xl-3">
+
+                    <div class="shop-product-card clickable-card"
+                         onclick="window.location='@Url.Action("Details", "Products", new { id = item.Id })'">
+
+                        <!-- IMAGE -->
+
+                        <div class="shop-product-image">
+
+                            <img src="@(string.IsNullOrEmpty(item.ImageUrl)
+                                                                 ? "https://via.placeholder.com/500x300"
+                                                                 : Url.Content("~/uploads/" + item.ImageUrl))"
+                                                                                                             alt="@item.Name">
+
+                            <div class="product-overlay-buttons">
+
+                                <a asp-controller="Products"
+                                   asp-action="Details"
+                                   asp-route-id="@item.Id"
+                                   class="overlay-btn"
+                                   onclick="event.stopPropagation();">
+
+                                    <i class="bi bi-eye"></i>
+
+                                </a>
+
+                                <a asp-controller="Cart"
+                                   asp-action="AddToCart"
+                                   asp-route-productId="@item.Id"
+                                   class="overlay-btn"
+                                   onclick="event.stopPropagation();">
+
+                                    <i class="bi bi-cart-plus"></i>
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                        <!-- BODY -->
+
+                        <div class="shop-product-body">
+
+                            <span class="product-category">
+
+                                @(item.Category?.Name ?? "General")
+
+                            </span>
+
+                            <h4>
+
+                                @item.Name
+
+                            </h4>
+
+                            <p>
+
+                                @(string.IsNullOrEmpty(item.Description)
+                                                            ? "No description available."
+                                                            : item.Description.Length > 90
+                                                            ? item.Description.Substring(0, 90) + "..."
+                                                            : item.Description)
+
+                        </p>
+
+                            <div class="shop-product-footer">
+
+                                <div>
+
+                                    <h5>
+
+                                        ₱@item.Price
+
+                                    </h5>
+
+                                    <span>
+
+                                        Stock: @item.StockQuantity
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <!-- HOVER ACTIONS -->
+
+                            <div class="shop-hover-actions">
+
+                                <a asp-controller="Cart"
+                                   asp-action="AddToCart"
+                                   asp-route-productId="@item.Id"
+                                   class="shop-add-btn"
+                                   onclick="event.stopPropagation();">
+
+                                    <i class="bi bi-cart-plus"></i>
+
+                                    Add to Cart
+
+                                </a>
+
+                                <a asp-controller="Products"
+                                   asp-action="Details"
+                                   asp-route-id="@item.Id"
+                                   class="shop-buy-btn"
+                                   onclick="event.stopPropagation();">
+
+                                    <i class="bi bi-lightning-charge-fill"></i>
+
+                                    View Product
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                        }
+        </div>
+
+    </div>
+
+</section>

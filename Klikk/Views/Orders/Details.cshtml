@@ -1,0 +1,252 @@
+﻿@model IEnumerable<Klikk.Models.OrderItem>
+
+@{
+    ViewData["Title"] = "Order Details";
+
+    decimal total = 0;
+}
+
+<!-- ========================================
+     ORDER DETAILS HERO
+======================================== -->
+
+<section class="orders-hero">
+
+    <div class="container">
+
+        <div class="orders-hero-card">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-8">
+
+                    <span class="orders-badge">
+
+                        📦 Order Breakdown
+
+                    </span>
+
+                    <h1>
+
+                        Order <span>Details</span>
+
+                    </h1>
+
+                    <p>
+
+                        Review all products included
+                        in this order along with
+                        quantities and pricing details.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-4 text-lg-end">
+
+                    <div class="orders-stat-card">
+
+                        <h3>
+
+                            @Model.Count()
+
+                        </h3>
+
+                        <span>
+
+                            Products Ordered
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     ORDER DETAILS CONTENT
+======================================== -->
+
+<section class="orders-section">
+
+    <div class="container">
+
+        @if (!Model.Any())
+        {
+            <div class="orders-empty-card">
+
+                <div class="orders-empty-icon">
+
+                    <i class="bi bi-bag-x"></i>
+
+                </div>
+
+                <h2>
+
+                    No Order Items Found
+
+                </h2>
+
+                <p>
+
+                    This order currently has no products.
+
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+
+                <!-- ITEMS -->
+
+                <div class="col-lg-8">
+
+                    <div class="cart-items-wrapper">
+
+                        @foreach (var item in Model)
+                        {
+                            var subtotal = item.Price * item.Quantity;
+
+                            total += subtotal;
+
+                            <div class="cart-item-card">
+
+                                <!-- IMAGE -->
+
+                                <div class="cart-item-image">
+
+                                    <img src="@(string.IsNullOrEmpty(item.Product.ImageUrl)
+                                                                                 ? "https://via.placeholder.com/500x300"
+                                                                                 : Url.Content("~/uploads/" + item.Product.ImageUrl))">
+
+                        </div>
+
+                                <!-- CONTENT -->
+
+                                <div class="cart-item-content">
+
+                                    <div class="cart-item-top">
+
+                                        <div>
+
+                                            <h4>
+
+                                                @item.Product.Name
+
+                                            </h4>
+
+                                            <p>
+
+                                                ₱@item.Price each
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- BOTTOM -->
+
+                                    <div class="cart-item-bottom">
+
+                                        <div class="order-quantity-badge">
+
+                                            Qty: @item.Quantity
+
+                                        </div>
+
+                                        <div class="cart-subtotal">
+
+                                            ₱@subtotal
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                                        }
+
+                    </div>
+
+                </div>
+
+                <!-- SUMMARY -->
+
+                <div class="col-lg-4">
+
+                    <div class="cart-summary-card">
+
+                        <h3>
+
+                            Order Summary
+
+                        </h3>
+
+                        <div class="summary-row">
+
+                            <span>
+                                Total Items
+                            </span>
+
+                            <span>
+                                @Model.Sum(x => x.Quantity)
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>
+                                Product Types
+                            </span>
+
+                            <span>
+                                @Model.Count()
+                            </span>
+
+                        </div>
+
+                        <div class="summary-divider"></div>
+
+                        <div class="summary-total">
+
+                            <span>
+                                Total Paid
+                            </span>
+
+                            <h2>
+
+                                ₱@total
+
+                            </h2>
+
+                        </div>
+
+                        <a asp-action="MyOrders"
+                           class="btn continue-shopping-btn w-100">
+
+                            Back to Orders
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</section>

@@ -1,0 +1,216 @@
+﻿@model Klikk.Models.Product
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<!-- ========================================
+     HERO (MATCH SHOP STYLE)
+======================================== -->
+
+<section class="shop-hero">
+
+    <div class="container">
+
+        <div class="shop-hero-card">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+
+                    <span class="shop-badge">
+                        ✏️ Update Product
+                    </span>
+
+                    <h1>
+                        Edit <span>Product</span>
+                    </h1>
+
+                    <p>
+                        Update product details, pricing, stock,
+                        and images to keep your store up to date.
+                    </p>
+
+                </div>
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <div class="shop-mini-stats">
+
+                        <div class="mini-stat-card">
+
+                            <h3>📦</h3>
+
+                            <span>Inventory</span>
+
+                        </div>
+
+                        <div class="mini-stat-card">
+
+                            <h3>⚡</h3>
+
+                            <span>Quick Update</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     EDIT FORM
+======================================== -->
+
+<section class="shop-products-section">
+
+    <div class="container">
+
+        <div class="shop-filter-card">
+
+            <form asp-action="Edit"
+                  enctype="multipart/form-data">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row g-4">
+
+                    <!-- NAME -->
+                    <div class="col-lg-6">
+
+                        <label asp-for="Name" class="form-label"></label>
+
+                        <input asp-for="Name"
+                               class="form-control klikk-input" />
+
+                        <span asp-validation-for="Name" class="text-danger"></span>
+
+                    </div>
+
+                    <!-- PRICE -->
+                    <div class="col-lg-3">
+
+                        <label asp-for="Price" class="form-label"></label>
+
+                        <input asp-for="Price"
+                               class="form-control klikk-input" />
+
+                        <span asp-validation-for="Price" class="text-danger"></span>
+
+                    </div>
+
+                    <!-- STOCK -->
+                    <div class="col-lg-3">
+
+                        <label asp-for="StockQuantity" class="form-label"></label>
+
+                        <input asp-for="StockQuantity"
+                               class="form-control klikk-input" />
+
+                        <span asp-validation-for="StockQuantity" class="text-danger"></span>
+
+                    </div>
+
+                    <!-- DESCRIPTION -->
+                    <div class="col-12">
+
+                        <label asp-for="Description" class="form-label"></label>
+
+                        <textarea asp-for="Description"
+                                  rows="4"
+                                  class="form-control klikk-input">
+                        </textarea>
+
+                        <span asp-validation-for="Description" class="text-danger"></span>
+
+                    </div>
+
+                    <!-- CATEGORY -->
+                    <div class="col-lg-6">
+
+                        <label class="form-label">
+                            Category
+                        </label>
+
+                        <select asp-for="CategoryId"
+                                class="form-select klikk-select"
+                                asp-items="ViewBag.CategoryId">
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+                    </div>
+
+                    <!-- IMAGE UPLOAD (FIXED) -->
+                    <div class="col-lg-6">
+
+                        <label class="form-label">
+                            Update Product Image
+                        </label>
+
+                        <input name="ImageFile"
+                               type="file"
+                               class="form-control klikk-input" />
+
+                        <small class="text-muted">
+                            Leave empty if you don't want to change the image.
+                        </small>
+
+                    </div>
+
+                    <!-- CURRENT IMAGE PREVIEW -->
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <div class="col-12">
+
+                            <p class="mb-2">Current Image</p>
+
+                            <img src="@Url.Content("~/uploads/" + Model.ImageUrl)"
+                                 style="max-height:200px;border-radius:12px;" />
+
+                        </div>
+                    }
+
+                    <!-- BUTTON -->
+                    <div class="col-12">
+
+                        <button type="submit"
+                                class="btn klikk-btn-primary w-100">
+
+                            Save Changes
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

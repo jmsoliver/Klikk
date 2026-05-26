@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Klikk.Models.Order>
+
+@{
+    Layout = "_AdminLayout";
+}
+@{
+    ViewData["Title"] = "Manage Orders";
+}
+
+<div class="container py-5">
+
+    <h1 class="fw-bold mb-5">
+        Manage Orders
+    </h1>
+
+    <div class="card shadow border-0">
+
+        <div class="card-body">
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+                        <th>Order ID</th>
+                        <th>User</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+
+                            <td>@order.Id</td>
+
+                            <td>@order.UserId</td>
+
+                            <td>₱@order.TotalAmount</td>
+
+                            <td>@order.Status</td>
+
+                            <td>@order.OrderDate</td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

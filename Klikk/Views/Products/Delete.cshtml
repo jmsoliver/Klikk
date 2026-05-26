@@ -1,0 +1,139 @@
+﻿@model Klikk.Models.Product
+
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<!-- ========================================
+     DELETE HERO
+======================================== -->
+
+<section class="shop-hero">
+
+    <div class="container">
+
+        <div class="shop-hero-card">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+
+                    <span class="shop-badge">
+                        ⚠️ Danger Zone
+                    </span>
+
+                    <h1>
+                        Delete <span>Product</span>
+                    </h1>
+
+                    <p>
+                        This action cannot be undone.
+                        Make sure you really want to remove this product
+                        from your Klikk store.
+                    </p>
+
+                </div>
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <div class="shop-mini-stats">
+
+                        <div class="mini-stat-card">
+
+                            <h3>🗑</h3>
+
+                            <span>Permanent</span>
+
+                        </div>
+
+                        <div class="mini-stat-card">
+
+                            <h3>⚠️</h3>
+
+                            <span>Irreversible</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     PRODUCT PREVIEW + DELETE CONFIRM
+======================================== -->
+
+<section class="shop-products-section">
+
+    <div class="container">
+
+        <div class="shop-filter-card">
+
+            <div class="row g-4 align-items-center">
+
+                <!-- IMAGE -->
+                <div class="col-lg-4">
+
+                    <div class="shop-product-image">
+
+                        <img src="@(string.IsNullOrEmpty(Model.ImageUrl)
+                                                                 ? "https://via.placeholder.com/500x300"
+                                                                 : Url.Content("~/uploads/" + Model.ImageUrl))" />
+
+                    </div>
+
+                </div>
+
+                <!-- DETAILS -->
+                <div class="col-lg-8">
+
+                    <h3>@Model.Name</h3>
+
+                    <p>
+                        @Model.Description
+                    </p>
+
+                    <p>
+                        <strong>Price:</strong> ₱@Model.Price <br />
+                        <strong>Stock:</strong> @Model.StockQuantity <br />
+                        <strong>Category:</strong> @(Model.Category?.Name ?? "General")
+                    </p>
+
+                    <!-- FORM -->
+                    <form asp-action="Delete"
+                          class="mt-4">
+
+                        <input type="hidden" asp-for="Id" />
+
+                        <button type="submit"
+                                class="btn btn-danger">
+
+                            Yes, Delete Product
+
+                        </button>
+
+                        <a asp-action="Index"
+                           class="btn klikk-btn-primary ms-2">
+
+                            Cancel
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

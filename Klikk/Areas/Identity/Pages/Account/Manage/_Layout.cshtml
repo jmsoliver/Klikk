@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<section class="account-management-section">
+
+    <div class="container">
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <h1>
+                Account Settings
+            </h1>
+
+            <p>
+                Manage your profile and security settings
+            </p>
+
+        </div>
+
+        <!-- ACCOUNT LAYOUT -->
+
+        <div class="account-page">
+
+            <!-- SIDEBAR -->
+
+            <aside class="sidebar-panel">
+
+                <partial name="_ManageNav" />
+
+            </aside>
+
+            <!-- CONTENT -->
+
+            <main class="content-panel">
+
+                @RenderBody()
+
+            </main>
+
+        </div>
+
+    </div>
+
+</section>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

@@ -1,0 +1,126 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+
+@{
+    var hasExternalLogins =
+        (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+
+<div class="klikk-manage-nav">
+
+    <!-- HEADER -->
+
+    <div class="klikk-manage-nav-header">
+
+        <div class="klikk-manage-nav-icon">
+
+            <i class="bi bi-person-circle"></i>
+
+        </div>
+
+        <div>
+
+            <h5>
+                Account
+            </h5>
+
+            <p>
+                Manage your Klikk settings
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- NAVIGATION -->
+
+    <nav class="klikk-manage-links">
+
+        <!-- PROFILE -->
+
+        <a class="klikk-manage-link @ManageNavPages.IndexNavClass(ViewContext)"
+           id="profile"
+           asp-page="./Index">
+
+            <i class="bi bi-person"></i>
+
+            <span>
+                Profile
+            </span>
+
+        </a>
+
+        <!-- EMAIL -->
+
+        <a class="klikk-manage-link @ManageNavPages.EmailNavClass(ViewContext)"
+           id="email"
+           asp-page="./Email">
+
+            <i class="bi bi-envelope"></i>
+
+            <span>
+                Email
+            </span>
+
+        </a>
+
+        <!-- PASSWORD -->
+
+        <a class="klikk-manage-link @ManageNavPages.ChangePasswordNavClass(ViewContext)"
+           id="change-password"
+           asp-page="./ChangePassword">
+
+            <i class="bi bi-lock"></i>
+
+            <span>
+                Password
+            </span>
+
+        </a>
+
+        <!-- EXTERNAL LOGINS -->
+        @if (hasExternalLogins)
+        {
+            <a class="klikk-manage-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)"
+               id="external-login"
+               asp-page="./ExternalLogins">
+
+                <i class="bi bi-link-45deg"></i>
+
+                <span>
+                    External Logins
+                </span>
+
+            </a>
+        }
+
+        <!-- 2FA -->
+
+        <a class="klikk-manage-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"
+           id="two-factor"
+           asp-page="./TwoFactorAuthentication">
+
+            <i class="bi bi-shield-lock"></i>
+
+            <span>
+                Two-Factor Auth
+            </span>
+
+        </a>
+
+        <!-- PERSONAL DATA -->
+
+        <a class="klikk-manage-link @ManageNavPages.PersonalDataNavClass(ViewContext)"
+           id="personal-data"
+           asp-page="./PersonalData">
+
+            <i class="bi bi-database"></i>
+
+            <span>
+                Personal Data
+            </span>
+
+        </a>
+
+    </nav>
+
+</div>

@@ -1,0 +1,190 @@
+﻿@model Klikk.Models.ProductViewModel
+
+@{
+    ViewData["Title"] = "Create Product";
+}
+
+<!-- ========================================
+     CREATE HERO (MATCH SHOP STYLE)
+======================================== -->
+
+<section class="shop-hero">
+
+    <div class="container">
+
+        <div class="shop-hero-card">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+
+                    <span class="shop-badge">
+                        ➕ Add New Product
+                    </span>
+
+                    <h1>
+                        Create a <span>New Listing</span>
+                    </h1>
+
+                    <p>
+                        Add a new product to your Klikk store.
+                        Fill in the details carefully to make it shine
+                        in the marketplace.
+                    </p>
+
+                </div>
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <div class="shop-mini-stats">
+
+                        <div class="mini-stat-card">
+
+                            <h3>🛍</h3>
+
+                            <span>Product Setup</span>
+
+                        </div>
+
+                        <div class="mini-stat-card">
+
+                            <h3>⚡</h3>
+
+                            <span>Fast Listing</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     CREATE FORM SECTION (BRANDED CARD)
+======================================== -->
+
+<section class="shop-products-section">
+
+    <div class="container">
+
+        <div class="shop-filter-card">
+
+            <form asp-action="Create"
+                  enctype="multipart/form-data">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <div class="row g-4">
+
+                    <!-- NAME -->
+                    <div class="col-lg-6">
+
+                        <label asp-for="Name" class="form-label">
+                            Product Name
+                        </label>
+
+                        <input asp-for="Name"
+                               class="form-control klikk-input" />
+
+                    </div>
+
+                    <!-- PRICE -->
+                    <div class="col-lg-3">
+
+                        <label asp-for="Price" class="form-label">
+                            Price
+                        </label>
+
+                        <input asp-for="Price"
+                               class="form-control klikk-input" />
+
+                    </div>
+
+                    <!-- STOCK -->
+                    <div class="col-lg-3">
+
+                        <label asp-for="StockQuantity" class="form-label">
+                            Stock
+                        </label>
+
+                        <input asp-for="StockQuantity"
+                               class="form-control klikk-input" />
+
+                    </div>
+
+                    <!-- DESCRIPTION -->
+                    <div class="col-12">
+
+                        <label asp-for="Description" class="form-label">
+                            Description
+                        </label>
+
+                        <textarea asp-for="Description"
+                                  rows="4"
+                                  class="form-control klikk-input">
+                        </textarea>
+
+                    </div>
+
+                    <!-- CATEGORY -->
+                    <div class="col-lg-6">
+
+                        <label class="form-label">
+                            Category
+                        </label>
+
+                        <select asp-for="CategoryId"
+                                class="form-select klikk-select"
+                                asp-items="ViewBag.CategoryId">
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- IMAGE -->
+                    <div class="col-lg-6">
+
+                        <label class="form-label">
+                            Product Image
+                        </label>
+
+                        <input asp-for="ImageFile"
+                               type="file"
+                               class="form-control klikk-input" />
+
+                    </div>
+
+                    <!-- BUTTON -->
+                    <div class="col-12">
+
+                        <button type="submit"
+                                class="btn klikk-btn-primary w-100">
+
+                            Save Product
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>

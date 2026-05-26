@@ -1,0 +1,109 @@
+﻿@page
+@model PersonalDataModel
+
+@{
+    ViewData["Title"] = "Personal Data";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<div class="account-card">
+
+    <div class="account-card-header">
+
+        <span class="account-badge">
+            Privacy & Data
+        </span>
+
+        <h2>
+            Personal Data
+        </h2>
+
+        <p>
+            Manage your personal account data, download your information,
+            or permanently remove your Klikk account.
+        </p>
+
+    </div>
+
+    <!-- DATA CARD -->
+
+    <div class="data-management-card">
+
+        <div class="data-management-icon">
+
+            <i class="bi bi-database-lock"></i>
+
+        </div>
+
+        <div class="data-management-content">
+
+            <h5>
+                Your Personal Information
+            </h5>
+
+            <p>
+                Your account contains personal data that you have shared with Klikk.
+                You can download a copy of your data at any time.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- WARNING -->
+
+    <div class="security-alert danger">
+
+        <i class="bi bi-exclamation-triangle-fill"></i>
+
+        <div>
+
+            <strong>
+                Permanent Account Deletion
+            </strong>
+
+            <p>
+                Deleting your account is irreversible. All your account data,
+                saved information, and associated records will be permanently removed.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+
+    <div class="privacy-actions">
+
+        <form id="download-data"
+              asp-page="DownloadPersonalData"
+              method="post">
+
+            <button class="btn auth-secondary-btn"
+                    type="submit">
+
+                <i class="bi bi-download"></i>
+
+                Download My Data
+
+            </button>
+
+        </form>
+
+        <a id="delete"
+           asp-page="DeletePersonalData"
+           class="btn auth-danger-btn">
+
+            <i class="bi bi-trash3"></i>
+
+            Delete Account
+
+        </a>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

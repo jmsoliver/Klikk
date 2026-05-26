@@ -1,0 +1,204 @@
+﻿@{
+    ViewData["Title"] = "My Profile";
+}
+
+<!-- ========================================
+     PROFILE HERO (BRANDED)
+======================================== -->
+
+<section class="shop-hero">
+
+    <div class="container">
+
+        <div class="shop-hero-card">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+
+                    <span class="shop-badge">
+                        👤 Account Center
+                    </span>
+
+                    <h1>
+                        My <span>Profile</span>
+                    </h1>
+
+                    <p>
+                        Manage your account details, activity,
+                        and preferences in one place.
+                    </p>
+
+                </div>
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <div class="shop-mini-stats">
+
+                        <div class="mini-stat-card">
+                            <h3>⚡</h3>
+                            <span>Active</span>
+                        </div>
+
+                        <div class="mini-stat-card">
+                            <h3>🔐</h3>
+                            <span>Secure</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     PROFILE CONTENT
+======================================== -->
+
+<section class="shop-products-section">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+            <!-- LEFT PROFILE CARD -->
+            <div class="col-lg-4">
+
+                <div class="shop-filter-card text-center h-100 p-5">
+
+                    <!-- AVATAR -->
+                    <div class="profile-avatar mb-4">
+
+                        @(User.Identity?.Name != null
+                                                ? User.Identity.Name.Substring(0, 1).ToUpper()
+                                                : "?")
+
+                    </div>
+
+                    <h4 class="fw-bold mb-1">
+                        @User.Identity.Name
+                    </h4>
+
+                    <p class="text-muted mb-4">
+                        @ViewBag.Email
+                    </p>
+
+                    <span class="badge bg-success px-3 py-2">
+                        Active Member
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT CONTENT -->
+            <div class="col-lg-8">
+
+                <!-- STATS -->
+                <div class="shop-filter-card mb-4">
+
+                    <h5 class="fw-bold mb-4">
+                        Account Overview
+                    </h5>
+
+                    <div class="row g-4">
+
+                        <div class="col-md-4 text-center">
+
+                            <div class="profile-stat-card">
+
+                                <h6 class="text-muted">Orders</h6>
+
+                                <h2 class="fw-bold">
+                                    @ViewBag.TotalOrders
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 text-center">
+
+                            <div class="profile-stat-card">
+
+                                <h6 class="text-muted">Wishlist</h6>
+
+                                <h2 class="fw-bold">
+                                    @ViewBag.TotalWishlist
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 text-center">
+
+                            <div class="profile-stat-card">
+
+                                <h6 class="text-muted">Reviews</h6>
+
+                                <h2 class="fw-bold">
+                                    @ViewBag.TotalReviews
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- QUICK ACTIONS -->
+                <div class="shop-filter-card">
+
+                    <h5 class="fw-bold mb-4">
+                        Quick Actions
+                    </h5>
+
+                    <div class="d-grid gap-3">
+
+                        <a asp-controller="Orders"
+                           asp-action="MyOrders"
+                           class="btn klikk-btn-primary">
+
+                            <i class="bi bi-box-seam me-2"></i>
+                            My Orders
+
+                        </a>
+
+                        <a asp-controller="Wishlist"
+                           asp-action="Index"
+                           class="btn hero-secondary-btn">
+
+                            <i class="bi bi-heart me-2"></i>
+                            My Wishlist
+
+                        </a>
+
+                        <a asp-area="Identity"
+                           asp-page="/Account/Manage/Index"
+                           class="btn btn-outline-dark">
+
+                            <i class="bi bi-gear me-2"></i>
+                            Account Settings
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

@@ -1,0 +1,371 @@
+﻿@model Klikk.Models.Product
+
+@{
+    ViewData["Title"] = "Product Details";
+    var suggestions = ViewBag.SuggestedProducts as List<Klikk.Models.Product>;
+}
+
+<!-- ========================================
+     PRODUCT HERO
+======================================== -->
+
+<section class="product-hero-section">
+
+    <div class="container">
+
+        <div class="row g-5 align-items-center">
+
+            <!-- PRODUCT IMAGE -->
+
+            <div class="col-lg-6">
+
+                <div class="product-image-wrapper">
+
+                    <!-- BADGE -->
+
+                    <div class="product-floating-badge">
+
+                        ✨ Premium Pick
+
+                    </div>
+
+                    <!-- IMAGE CARD -->
+
+                    <div class="product-image-card">
+
+                        <img src="@(string.IsNullOrEmpty(Model.ImageUrl)
+                                                         ? "https://via.placeholder.com/700x650"
+                                                         : Url.Content("~/uploads/" + Model.ImageUrl))"
+                             alt="@Model.Name" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PRODUCT INFO -->
+
+            <div class="col-lg-6">
+
+                <span class="product-category">
+                    @Model.Category?.Name
+                </span>
+
+                <h1 class="product-title mt-3">
+                    @Model.Name
+                </h1>
+
+                <p class="product-description mt-4">
+                    @Model.Description
+                </p>
+
+                <!-- PRICE CARD -->
+
+                <div class="product-price-card mt-4">
+
+                    <div>
+
+                        <h2>
+                            ₱@Model.Price
+                        </h2>
+
+                        <span>
+                            @(Model.StockQuantity > 0 ? "In Stock" : "Out of Stock")
+                        </span>
+
+                    </div>
+
+                    <div class="stock-pill">
+
+                        @Model.StockQuantity left
+
+                    </div>
+
+                </div>
+
+                <!-- FEATURES -->
+
+                <div class="product-feature-list mt-4">
+
+                    <div class="feature-pill">
+                        <i class="bi bi-truck"></i>
+                        Free Shipping
+                    </div>
+
+                    <div class="feature-pill">
+                        <i class="bi bi-shield-check"></i>
+                        Secure Checkout
+                    </div>
+
+                    <div class="feature-pill">
+                        <i class="bi bi-arrow-repeat"></i>
+                        Easy Returns
+                    </div>
+
+                </div>
+
+                <!-- ACTION BUTTONS -->
+
+                <div class="product-actions mt-5 d-flex gap-3 flex-wrap">
+
+                    <!-- ADD TO CART -->
+
+                    <a asp-controller="Cart"
+                       asp-action="AddToCart"
+                       asp-route-productId="@Model.Id"
+                       class="btn klikk-btn-primary btn-lg">
+
+                        <i class="bi bi-cart-plus"></i>
+                        Add to Cart
+
+                    </a>
+
+                    <!-- BUY NOW -->
+
+                    <a asp-controller="Orders"
+                       asp-action="BuyNow"
+                       asp-route-productId="@Model.Id"
+                       class="btn btn-dark btn-lg">
+
+                        <i class="bi bi-lightning-charge-fill"></i>
+                        Buy Now
+
+                    </a>
+
+                    <!-- WISHLIST -->
+
+                    <a asp-controller="Wishlist"
+                       asp-action="Add"
+                       asp-route-productId="@Model.Id"
+                       class="btn hero-secondary-btn btn-lg">
+
+                        <i class="bi bi-heart"></i>
+                        Wishlist
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     REVIEWS SECTION
+======================================== -->
+
+<section class="review-section">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <h2>
+                Customer Reviews
+            </h2>
+
+            <p>
+                What buyers are saying about this product
+            </p>
+
+        </div>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="review-form-card mb-5">
+
+                <form asp-controller="Reviews"
+                      asp-action="Create"
+                      method="post">
+
+                    <input type="hidden"
+                           name="productId"
+                           value="@Model.Id" />
+
+                    <label class="fw-bold mb-3">
+                        Your Rating
+                    </label>
+
+                    <div class="star-rating mb-4">
+
+                        <input type="radio" id="5-stars" name="Rating" value="5" />
+                        <label for="5-stars">★</label>
+
+                        <input type="radio" id="4-stars" name="Rating" value="4" />
+                        <label for="4-stars">★</label>
+
+                        <input type="radio" id="3-stars" name="Rating" value="3" />
+                        <label for="3-stars">★</label>
+
+                        <input type="radio" id="2-stars" name="Rating" value="2" />
+                        <label for="2-stars">★</label>
+
+                        <input type="radio" id="1-star" name="Rating" value="1" />
+                        <label for="1-star">★</label>
+
+                    </div>
+
+                    <textarea name="comment"
+                          class="form-control auth-input"
+                          rows="5"
+                          placeholder="Write your review..."></textarea>
+
+                    <button type="submit"
+                            class="btn klikk-btn-primary mt-4">
+
+                        Submit Review
+
+                    </button>
+
+                </form>
+
+            </div>
+        }
+
+        @if (Model.Reviews != null && Model.Reviews.Any())
+        {
+            <div class="row g-4">
+
+                @foreach (var review in Model.Reviews.OrderByDescending(r => r.ReviewDate))
+                {
+                    <div class="col-md-6">
+
+                        <div class="review-card">
+
+                            <div class="mb-3">
+
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <span class="@(i <= review.Rating ? "text-warning" : "text-muted") fs-5">★</span>
+                                }
+
+                            </div>
+
+                            <p class="mb-3">
+                                @review.Comment
+                            </p>
+
+                            <small>
+                                @review.ReviewDate.ToString("MMM dd, yyyy")
+                            </small>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="empty-review-state">
+
+                <i class="bi bi-chat-square-text"></i>
+
+                <h5>
+                    No reviews yet
+                </h5>
+
+                <p>
+                    Be the first to review this product.
+                </p>
+
+            </div>
+        }
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     SUGGESTED PRODUCTS
+======================================== -->
+@if (suggestions != null && suggestions.Any())
+{
+    <section class="trending-section">
+
+        <div class="container">
+
+            <div class="section-header d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h2>
+                        You May Also Like
+                    </h2>
+
+                    <p>
+                        Similar products in this category
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="row g-4">
+
+                @foreach (var item in suggestions)
+                {
+                    <div class="col-md-6 col-lg-3 d-flex">
+
+                        <a asp-controller="Products"
+                           asp-action="Details"
+                           asp-route-id="@item.Id"
+                           class="text-decoration-none w-100">
+
+                            <div class="shop-product-card h-100">
+
+                                <div class="shop-product-image">
+
+                                    <img src="@(string.IsNullOrEmpty(item.ImageUrl)
+                                                                                 ? "https://via.placeholder.com/300x250"
+                                                                                 : Url.Content("~/uploads/" + item.ImageUrl))" />
+
+                        </div>
+
+                                <div class="shop-product-body">
+
+                                    <span class="product-category">
+                                        @item.Category?.Name
+                                    </span>
+
+                                    <h4>
+                                        @item.Name
+                                    </h4>
+
+                                    <p>
+                                        @item.Description
+                                    </p>
+
+                                    <div class="shop-product-footer">
+
+                                        <h5>
+                                            ₱@item.Price
+                                        </h5>
+
+                                        <span>
+                                            @item.StockQuantity left
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+                        }
+
+            </div>
+
+        </div>
+
+    </section>
+}

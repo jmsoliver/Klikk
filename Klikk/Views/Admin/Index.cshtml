@@ -1,0 +1,223 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<!-- ========================================
+     ADMIN HERO
+======================================== -->
+
+<section class="orders-hero">
+
+    <div class="container">
+
+        <div class="orders-hero-card">
+
+            <div class="row align-items-center">
+
+                <!-- LEFT TEXT -->
+
+                <div class="col-lg-7">
+
+                    <span class="orders-badge">
+                        ⚙️ Admin Control Center
+                    </span>
+
+                    <h1>
+                        Manage <span>Klikk</span> System
+                    </h1>
+
+                    <p>
+                        Monitor products, track orders, manage users,
+                        and analyze sales performance in real time.
+                    </p>
+
+                </div>
+
+                <!-- RIGHT STATS -->
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <div class="admin-mini-stats d-flex flex-wrap gap-3 justify-content-lg-end">
+
+                        <div class="orders-stat-card">
+                            <h3>@ViewBag.TotalProducts</h3>
+                            <span>Products</span>
+                        </div>
+
+                        <div class="orders-stat-card">
+                            <h3>@ViewBag.TotalOrders</h3>
+                            <span>Orders</span>
+                        </div>
+
+                        <div class="orders-stat-card">
+                            <h3>@ViewBag.TotalUsers</h3>
+                            <span>Users</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     KPI CARDS
+======================================== -->
+
+<section class="feature-section">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <h2>Overview Metrics</h2>
+
+            <p>Key performance indicators for your store</p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- SALES -->
+
+            <div class="col-md-6">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon mint-bg">
+                        <i class="bi bi-cash-coin"></i>
+                    </div>
+
+                    <h4>Total Sales</h4>
+
+                    <h2 class="fw-bold text-success">
+                        ₱@ViewBag.TotalSales
+                    </h2>
+
+                    <p>
+                        Total revenue generated across all completed orders.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- LOW STOCK -->
+
+            <div class="col-md-6">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon yellow-bg">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+
+                    <h4>Low Stock Alerts</h4>
+
+                    <h2 class="fw-bold text-danger">
+                        @ViewBag.LowStockProducts
+                    </h2>
+
+                    <p>
+                        Products that need immediate restocking attention.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     QUICK ACTIONS
+======================================== -->
+
+<section class="category-section">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <h2>Quick Actions</h2>
+
+            <p>Manage your store efficiently</p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- PRODUCTS -->
+
+            <div class="col-md-4">
+
+                <a asp-controller="Products"
+                   asp-action="AdminIndex"
+                   class="admin-action-card text-decoration-none">
+
+                    <div class="admin-action-icon mint-bg">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+
+                    <h4>Manage Products</h4>
+
+                    <p>View, edit, and organize all products</p>
+
+                </a>
+
+            </div>
+
+            <!-- ORDERS -->
+
+            <div class="col-md-4">
+
+                <a asp-controller="AdminOrders"
+                   asp-action="Index"
+                   class="admin-action-card text-decoration-none">
+
+                    <div class="admin-action-icon yellow-bg">
+                        <i class="bi bi-receipt"></i>
+                    </div>
+
+                    <h4>View Orders</h4>
+
+                    <p>Track and process customer orders</p>
+
+                </a>
+
+            </div>
+
+            <!-- USERS -->
+
+            <div class="col-md-4">
+
+                <a asp-controller="Users"
+                   asp-action="Index"
+                   class="admin-action-card text-decoration-none">
+
+                    <div class="admin-action-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+
+                    <h4>Manage Users</h4>
+
+                    <p>Control customer and admin accounts</p>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

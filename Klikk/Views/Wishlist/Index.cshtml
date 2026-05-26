@@ -1,0 +1,227 @@
+﻿@model IEnumerable<Klikk.Models.WishlistItem>
+
+@{
+    ViewData["Title"] = "My Wishlist";
+}
+
+<!-- ========================================
+     WISHLIST HERO
+======================================== -->
+
+<section class="wishlist-hero">
+
+    <div class="container">
+
+        <div class="wishlist-hero-card">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+
+                    <span class="wishlist-badge">
+
+                        ❤️ Saved Favorites
+
+                    </span>
+
+                    <h1>
+
+                        My <span>Wishlist</span>
+
+                    </h1>
+
+                    <p>
+
+                        Keep track of products you love,
+                        compare your favorites, and shop
+                        them anytime with Klikk.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <div class="wishlist-stat-card">
+
+                        <h3>
+
+                            @Model.Count()
+
+                        </h3>
+
+                        <span>
+
+                            Saved Products
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     WISHLIST CONTENT
+======================================== -->
+
+<section class="wishlist-section">
+
+    <div class="container">
+
+        @if (!Model.Any())
+        {
+            <div class="wishlist-empty-card">
+
+                <div class="empty-heart">
+
+                    <i class="bi bi-heart"></i>
+
+                </div>
+
+                <h2>
+
+                    Your Wishlist is Empty
+
+                </h2>
+
+                <p>
+
+                    Save products you love and
+                    easily revisit them later.
+
+                </p>
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="btn klikk-btn-primary btn-lg mt-3">
+
+                    Start Shopping
+
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+
+                        <div class="wishlist-product-card">
+
+                            <!-- IMAGE -->
+
+                            <div class="wishlist-product-image">
+
+                                <img src="@(string.IsNullOrEmpty(item.Product.ImageUrl)
+                                                                         ? "https://via.placeholder.com/500x300"
+                                                                         : Url.Content("~/uploads/" + item.Product.ImageUrl))">
+
+                                <div class="wishlist-overlay">
+
+                                    <a asp-controller="Products"
+                                       asp-action="Details"
+                                       asp-route-id="@item.Product.Id"
+                                       class="wishlist-overlay-btn">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </a>
+
+                                    <a asp-action="Remove"
+                                       asp-route-id="@item.Id"
+                                       class="wishlist-overlay-btn remove-btn">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                            <!-- BODY -->
+
+                            <div class="wishlist-product-body">
+
+                                <h4>
+
+                                    @item.Product.Name
+
+                                </h4>
+
+                                <p>
+
+                                    @(item.Product.Description.Length > 85
+                                                                ? item.Product.Description.Substring(0, 85) + "..."
+                                                                : item.Product.Description)
+
+                        </p>
+
+                                <div class="wishlist-product-footer">
+
+                                    <div>
+
+                                        <h5>
+
+                                            ₱@item.Product.Price
+
+                                        </h5>
+
+                                    </div>
+
+                                    <a asp-controller="Cart"
+                                       asp-action="AddToCart"
+                                       asp-route-productId="@item.Product.Id"
+                                       class="wishlist-cart-btn">
+
+                                        <i class="bi bi-cart-plus"></i>
+
+                                    </a>
+
+                                </div>
+
+                                <div class="wishlist-buttons">
+
+                                    <a asp-controller="Products"
+                                       asp-action="Details"
+                                       asp-route-id="@item.Product.Id"
+                                       class="btn wishlist-view-btn w-100">
+
+                                        View Product
+
+                                    </a>
+
+                                    <a asp-action="Remove"
+                                       asp-route-id="@item.Id"
+                                       class="btn wishlist-remove-btn w-100">
+
+                                        Remove
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                        }
+
+            </div>
+        }
+
+    </div>
+
+</section>
