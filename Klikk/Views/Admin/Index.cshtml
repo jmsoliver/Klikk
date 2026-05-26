@@ -120,7 +120,7 @@
 
                     <h4>Low Stock Alerts</h4>
 
-                    <h2 class="fw-bold text-danger">
+                    <h2 class="fw-bold text-success">
                         @ViewBag.LowStockProducts
                     </h2>
 
@@ -164,8 +164,8 @@
                    asp-action="AdminIndex"
                    class="admin-action-card text-decoration-none">
 
-                    <div class="admin-action-icon mint-bg">
-                        <i class="bi bi-box-seam"></i>
+                    <div class="admin-action-icon">
+                        <i class="bi bi-box-seam" style="color: #ff6f4d;"></i>
                     </div>
 
                     <h4>Manage Products</h4>
@@ -184,8 +184,8 @@
                    asp-action="Index"
                    class="admin-action-card text-decoration-none">
 
-                    <div class="admin-action-icon yellow-bg">
-                        <i class="bi bi-receipt"></i>
+                    <div class="admin-action-icon">
+                        <i class="bi bi-receipt" style="color: #ff6f4d;"></i>
                     </div>
 
                     <h4>View Orders</h4>
@@ -196,21 +196,21 @@
 
             </div>
 
-            <!-- USERS -->
+            <!-- CATEGORIES -->
 
             <div class="col-md-4">
 
-                <a asp-controller="Users"
+                <a asp-controller="Categories"
                    asp-action="Index"
                    class="admin-action-card text-decoration-none">
 
                     <div class="admin-action-icon">
-                        <i class="bi bi-people"></i>
+                        <i class="bi bi-tags" style="color: #ff6f4d;"></i>
                     </div>
 
-                    <h4>Manage Users</h4>
+                    <h4>Manage Categories</h4>
 
-                    <p>Control customer and admin accounts</p>
+                    <p>Add and organize product categories</p>
 
                 </a>
 

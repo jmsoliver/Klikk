@@ -1,33 +1,146 @@
 ﻿@model Klikk.Models.Category
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Category";
 }
 
-<h1>Create</h1>
+<!-- ========================================
+     CATEGORY HERO
+======================================== -->
 
-<h4>Category</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+<section class="shop-hero">
+
+    <div class="container">
+
+        <div class="shop-hero-card">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+
+                    <span class="shop-badge">
+                        🏷️ Category Management
+                    </span>
+
+                    <h1>
+                        Create a <span>New Category</span>
+                    </h1>
+
+                    <p>
+                        Organize your Klikk marketplace better by
+                        adding product categories for easier browsing
+                        and cleaner product management.
+                    </p>
+
+                </div>
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <div class="shop-mini-stats">
+
+                        <div class="mini-stat-card">
+
+                            <h3>📂</h3>
+
+                            <span>Store Organization</span>
+
+                        </div>
+
+                        <div class="mini-stat-card">
+
+                            <h3>⚡</h3>
+
+                            <span>Quick Setup</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+
+        </div>
+
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</section>
+
+<!-- ========================================
+     CATEGORY FORM
+======================================== -->
+
+<section class="shop-products-section">
+
+    <div class="container">
+
+        <div class="shop-filter-card">
+
+            <form asp-action="Create">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <div class="row g-4">
+
+                    <!-- CATEGORY NAME -->
+
+                    <div class="col-12">
+
+                        <label asp-for="Name"
+                               class="form-label">
+
+                            Category Name
+
+                        </label>
+
+                        <input asp-for="Name"
+                               class="form-control klikk-input"
+                               placeholder="Enter category name" />
+
+                        <span asp-validation-for="Name"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- ACTION BUTTONS -->
+
+                    <div class="col-12">
+
+                        <div class="d-flex gap-3">
+
+                            <button type="submit"
+                                    class="btn klikk-btn-primary flex-grow-1">
+
+                                Create Category
+
+                            </button>
+
+                            <a asp-action="Index"
+                               class="btn btn-light border px-4">
+
+                                Back
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

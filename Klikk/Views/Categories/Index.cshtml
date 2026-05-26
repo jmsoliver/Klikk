@@ -1,35 +1,221 @@
 ﻿@model IEnumerable<Klikk.Models.Category>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categories";
 }
 
-<h1>Index</h1>
+<!-- ========================================
+     CATEGORY HERO
+======================================== -->
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<section class="shop-hero">
+
+    <div class="container">
+
+        <div class="shop-hero-card">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+
+                    <span class="shop-badge">
+                        🏷️ Category Management
+                    </span>
+
+                    <h1>
+                        Manage <span>Categories</span>
+                    </h1>
+
+                    <p>
+                        Organize your marketplace by creating and
+                        managing categories for products across Klikk.
+                    </p>
+
+                </div>
+
+                <div class="col-lg-5 text-lg-end">
+
+                    <div class="shop-mini-stats">
+
+                        <div class="mini-stat-card">
+
+                            <h3>@Model.Count()</h3>
+
+                            <span>Total Categories</span>
+
+                        </div>
+
+                        <div class="mini-stat-card">
+
+                            <h3>⚡</h3>
+
+                            <span>Easy Management</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================
+     CATEGORY TABLE
+======================================== -->
+
+<section class="shop-products-section">
+
+    <div class="container">
+
+        <!-- TOP ACTION BAR -->
+
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+            <div>
+
+                <h3 class="fw-bold mb-1">
+                    Category List
+                </h3>
+
+                <p class="text-muted mb-0">
+                    View and manage all product categories
+                </p>
+
+            </div>
+
+            <a asp-action="Create"
+               class="btn klikk-btn-primary">
+
+                <i class="bi bi-plus-circle me-2"></i>
+                Create Category
+
+            </a>
+
+        </div>
+
+        <!-- TABLE CARD -->
+
+        <div class="shop-filter-card p-0 overflow-hidden">
+
+            <div class="table-responsive">
+
+                <table class="table align-middle mb-0">
+
+                    <thead class="table-dark" style="--bs-table-bg: #1F2430; color: white;">
+
+                        <tr>
+
+                            <th class="ps-4 w-75 py-3">
+                                Category Name
+                            </th>
+
+                            <th class="text-end pe-4 w-25 py-3">
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.Any())
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td class="px-4 py-3 fw-semibold">
+
+                                        @item.Name
+
+                                    </td>
+
+                                    <td class="px-4 py-3 text-end">
+
+                                        <div class="d-flex justify-content-end gap-2 flex-wrap">
+
+                                            <a asp-action="Edit"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-sm btn-outline-dark">
+
+                                                <i class="bi bi-pencil-square me-1"></i>
+                                                Edit
+
+                                            </a>
+
+                                            <a asp-action="Details"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-sm btn-outline-secondary">
+
+                                                <i class="bi bi-eye me-1"></i>
+                                                Details
+
+                                            </a>
+
+                                            <a asp-action="Delete"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-sm btn-outline-danger">
+
+                                                <i class="bi bi-trash me-1"></i>
+                                                Delete
+
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+
+                                <td colspan="2"
+                                    class="text-center py-5">
+
+                                    <div class="d-flex flex-column align-items-center">
+
+                                        <i class="bi bi-inbox fs-1 text-muted mb-3"></i>
+
+                                        <h5 class="fw-bold">
+                                            No Categories Found
+                                        </h5>
+
+                                        <p class="text-muted mb-4">
+                                            Start by creating your first category.
+                                        </p>
+
+                                        <a asp-action="Create"
+                                           class="btn klikk-btn-primary">
+
+                                            Create Category
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

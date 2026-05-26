@@ -276,17 +276,6 @@ body {
     overflow: hidden;
 }
 
-    .hero-main::before {
-        content: '';
-        position: absolute;
-        width: 300px;
-        height: 300px;
-        background: rgba(255,255,255,0.05);
-        border-radius: 50%;
-        top: -100px;
-        right: -100px;
-    }
-
 .hero-content {
     position: relative;
     z-index: 2;
@@ -3393,4 +3382,10 @@ body {
 .content-panel {
     flex: 1;
     min-width: 0;
+}
+
+.klikk-logo-img {
+    height: 40px; /* adjust as needed */
+    width: auto;
+    object-fit: contain;
 }
