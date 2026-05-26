@@ -11,7 +11,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        o => o.EnableRetryOnFailure()
+        npgsqlOptions => npgsqlOptions.EnableRetryOnFailure()
     ));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
@@ -47,7 +47,7 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        Console.WriteLine("Role seeding failed (ignored): " + ex.Message);
+        Console.WriteLine("Role seeding failed (app will still run): " + ex.Message);
     }
 }
 
