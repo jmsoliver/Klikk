@@ -60,7 +60,7 @@ namespace Klikk.Controllers
                 return RedirectToAction("Index", "Cart");
             }
 
-            var domain = "https://klikk.onrender.com";
+            var domain = "https://klikk.onrender.com/";
 
             var options = new SessionCreateOptions
             {
@@ -127,7 +127,7 @@ namespace Klikk.Controllers
                 .Where(c => c.UserId == userId)
                 .ToListAsync();
 
-            var domain = "https://klikk.onrender.com";
+            var domain = "https://klikk.onrender.com/";
 
             var options = new SessionCreateOptions
             {
@@ -414,7 +414,7 @@ namespace Klikk.Controllers
                 return NotFound();
             }
 
-            var domain = "https://klikk.onrender.com";
+            var domain = "https://klikk.onrender.com/";
 
             var options = new SessionCreateOptions
             {
