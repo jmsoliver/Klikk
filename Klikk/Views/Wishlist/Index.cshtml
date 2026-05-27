@@ -124,8 +124,8 @@
                             <div class="wishlist-product-image">
 
                                 <img src="@(string.IsNullOrEmpty(item.Product.ImageUrl)
-                                                                         ? "https://via.placeholder.com/500x300"
-                                                                         : Url.Content("~/uploads/" + item.Product.ImageUrl))">
+                                         ? "https://via.placeholder.com/500x300"
+                                         : item.Product.ImageUrl)">
 
                                 <div class="wishlist-overlay">
 

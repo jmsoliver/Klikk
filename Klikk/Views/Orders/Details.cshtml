@@ -126,7 +126,7 @@
 
                                     <img src="@(string.IsNullOrEmpty(item.Product.ImageUrl)
                                                                                  ? "https://via.placeholder.com/500x300"
-                                                                                 : Url.Content("~/uploads/" + item.Product.ImageUrl))">
+    : item.Product.ImageUrl)">
 
                         </div>
 

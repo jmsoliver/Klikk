@@ -63,7 +63,7 @@ namespace Klikk.Controllers
             TempData["Success"] =
                 "Product added to cart successfully!";
 
-            return RedirectToAction("Index");
+            return Ok(new { success = true });
         }
 
         // REMOVE ITEM

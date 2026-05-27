@@ -13,7 +13,7 @@
 
     <div class="container">
 
-        <div class="row g-5 align-items-center">
+        <div class="row g-5 align-items-start">
 
             <!-- PRODUCT IMAGE -->
 
@@ -21,21 +21,15 @@
 
                 <div class="product-image-wrapper">
 
-                    <!-- BADGE -->
-
                     <div class="product-floating-badge">
-
                         ✨ Premium Pick
-
                     </div>
-
-                    <!-- IMAGE CARD -->
 
                     <div class="product-image-card">
 
                         <img src="@(string.IsNullOrEmpty(Model.ImageUrl)
-                                                         ? "https://via.placeholder.com/700x650"
-                                                         : Url.Content("~/uploads/" + Model.ImageUrl))"
+                                                              ? "https://via.placeholder.com/700x650"
+                                                              : Model.ImageUrl)"
                              alt="@Model.Name" />
 
                     </div>
@@ -48,102 +42,126 @@
 
             <div class="col-lg-6">
 
-                <span class="product-category">
-                    @Model.Category?.Name
-                </span>
+                <div class="product-info-container">
 
-                <h1 class="product-title mt-3">
-                    @Model.Name
-                </h1>
+                    <span class="product-category">
+                        @Model.Category?.Name
+                    </span>
 
-                <p class="product-description mt-4">
-                    @Model.Description
-                </p>
+                    <!-- TITLE NOW MORE ALIGNED WITH IMAGE -->
 
-                <!-- PRICE CARD -->
+                    <h1 class="product-title">
+                        @Model.Name
+                    </h1>
 
-                <div class="product-price-card mt-4">
+                    <!-- DESCRIPTION BOX -->
 
-                    <div>
+                    <div class="product-description-box">
 
-                        <h2>
-                            ₱@Model.Price
-                        </h2>
+                        <p class="product-description collapsed"
+                           id="productDescription">
 
-                        <span>
-                            @(Model.StockQuantity > 0 ? "In Stock" : "Out of Stock")
-                        </span>
+                            @Model.Description
+
+                        </p>
+
+                        @if (!string.IsNullOrEmpty(Model.Description) && Model.Description.Length > 220)
+                        {
+                            <button type="button"
+                                    class="see-more-btn"
+                                    id="seeMoreBtn">
+
+                                See More
+
+                            </button>
+                        }
 
                     </div>
 
-                    <div class="stock-pill">
+                    <!-- PRICE CARD -->
 
-                        @Model.StockQuantity left
+                    <div class="product-price-card">
+
+                        <div>
+
+                            <h2>
+                                ₱@Model.Price
+                            </h2>
+
+                            <span class="stock-status">
+                                @(Model.StockQuantity > 0 ? "In Stock" : "Out of Stock")
+                            </span>
+
+                        </div>
+
+                        <div class="stock-pill">
+                            @Model.StockQuantity left
+                        </div>
 
                     </div>
 
-                </div>
+                    <!-- FEATURES -->
 
-                <!-- FEATURES -->
+                    <div class="product-feature-list">
 
-                <div class="product-feature-list mt-4">
+                        <div class="feature-pill">
+                            <i class="bi bi-truck"></i>
+                            Free Shipping
+                        </div>
 
-                    <div class="feature-pill">
-                        <i class="bi bi-truck"></i>
-                        Free Shipping
+                        <div class="feature-pill">
+                            <i class="bi bi-shield-check"></i>
+                            Secure Checkout
+                        </div>
+
+                        <div class="feature-pill">
+                            <i class="bi bi-arrow-repeat"></i>
+                            Easy Returns
+                        </div>
+
                     </div>
 
-                    <div class="feature-pill">
-                        <i class="bi bi-shield-check"></i>
-                        Secure Checkout
+                    <!-- ACTION BUTTONS -->
+
+                    <div class="product-actions">
+
+                        <!-- ADD TO CART -->
+
+                        <a href="javascript:void(0);"
+                           class="btn klikk-btn-primary btn-lg action-btn add-to-cart-btn"
+                           data-product-id="@Model.Id">
+
+                            <i class="bi bi-cart-plus"></i>
+                            <span>Add to Cart</span>
+
+                        </a>
+
+                        <!-- BUY NOW -->
+
+                        <a asp-controller="Orders"
+                           asp-action="BuyNow"
+                           asp-route-productId="@Model.Id"
+                           class="btn btn-dark btn-lg action-btn">
+
+                            <i class="bi bi-lightning-charge-fill"></i>
+                            <span>Buy Now</span>
+
+                        </a>
+
+                        <!-- WISHLIST -->
+
+                        <a asp-controller="Wishlist"
+                           asp-action="Add"
+                           asp-route-productId="@Model.Id"
+                           class="btn hero-secondary-btn btn-lg action-btn"
+                           style="background-color: #ff4d6d; color: white; border-color: #ff4d6d;">
+
+                            <i class="bi bi-heart"></i>
+                            <span>Wishlist</span>
+
+                        </a>
+
                     </div>
-
-                    <div class="feature-pill">
-                        <i class="bi bi-arrow-repeat"></i>
-                        Easy Returns
-                    </div>
-
-                </div>
-
-                <!-- ACTION BUTTONS -->
-
-                <div class="product-actions mt-5 d-flex gap-3 flex-wrap">
-
-                    <!-- ADD TO CART -->
-
-                    <a asp-controller="Cart"
-                       asp-action="AddToCart"
-                       asp-route-productId="@Model.Id"
-                       class="btn klikk-btn-primary btn-lg">
-
-                        <i class="bi bi-cart-plus"></i>
-                        Add to Cart
-
-                    </a>
-
-                    <!-- BUY NOW -->
-
-                    <a asp-controller="Orders"
-                       asp-action="BuyNow"
-                       asp-route-productId="@Model.Id"
-                       class="btn btn-dark btn-lg">
-
-                        <i class="bi bi-lightning-charge-fill"></i>
-                        Buy Now
-
-                    </a>
-
-                    <!-- WISHLIST -->
-
-                    <a asp-controller="Wishlist"
-                       asp-action="Add"
-                       asp-route-productId="@Model.Id"
-                       class="btn hero-secondary-btn btn-lg">
-
-                        <i class="bi bi-heart"></i>
-                        Wishlist
-
-                    </a>
 
                 </div>
 
@@ -154,6 +172,36 @@
     </div>
 
 </section>
+
+<!-- ========================================
+     DESCRIPTION MODAL
+======================================== -->
+
+<div class="description-modal-overlay"
+     id="descriptionModal">
+
+    <div class="description-modal-box">
+
+        <button class="description-modal-close"
+                id="closeDescriptionModal">
+
+            <i class="bi bi-x-lg"></i>
+
+        </button>
+
+        <h3>
+            Product Description
+        </h3>
+
+        <div class="description-modal-content">
+
+            @Model.Description
+
+        </div>
+
+    </div>
+
+</div>
 
 <!-- ========================================
      REVIEWS SECTION
@@ -170,7 +218,7 @@
             </h2>
 
             <p>
-                What buyers are saying about this product
+                Trusted feedback from verified customers
             </p>
 
         </div>
@@ -187,7 +235,7 @@
                            name="productId"
                            value="@Model.Id" />
 
-                    <label class="fw-bold mb-3">
+                    <label class="review-label">
                         Your Rating
                     </label>
 
@@ -211,12 +259,12 @@
                     </div>
 
                     <textarea name="comment"
-                          class="form-control auth-input"
+                          class="form-control review-textarea"
                           rows="5"
-                          placeholder="Write your review..."></textarea>
+                          placeholder="Share your experience with this product. Talk about the quality, packaging, delivery, or overall satisfaction."></textarea>
 
                     <button type="submit"
-                            class="btn klikk-btn-primary mt-4">
+                            class="btn klikk-btn-primary review-submit-btn mt-4">
 
                         Submit Review
 
@@ -237,7 +285,7 @@
 
                         <div class="review-card">
 
-                            <div class="mb-3">
+                            <div class="review-stars mb-3">
 
                                 @for (int i = 1; i <= 5; i++)
                                 {
@@ -246,11 +294,15 @@
 
                             </div>
 
-                            <p class="mb-3">
-                                @review.Comment
-                            </p>
+                            <div class="review-content">
 
-                            <small>
+                                <p>
+                                    @review.Comment
+                                </p>
+
+                            </div>
+
+                            <small class="review-date">
                                 @review.ReviewDate.ToString("MMM dd, yyyy")
                             </small>
 
@@ -282,90 +334,554 @@
 
 </section>
 
-<!-- ========================================
-     SUGGESTED PRODUCTS
-======================================== -->
-@if (suggestions != null && suggestions.Any())
-{
-    <section class="trending-section">
+<style>
 
-        <div class="container">
+    /* ========================================
+           PRODUCT PAGE
+        ======================================== */
 
-            <div class="section-header d-flex justify-content-between align-items-center">
+    .product-hero-section {
+        padding: 85px 0;
+        background: #fafafa;
+    }
 
-                <div>
+    .product-info-container {
+        padding-top: 0;
+    }
 
-                    <h2>
-                        You May Also Like
-                    </h2>
+    .product-image-wrapper {
+        position: relative;
+    }
 
-                    <p>
-                        Similar products in this category
-                    </p>
+    .product-image-card {
+        background: #fff;
+        border-radius: 32px;
+        overflow: hidden;
+        padding: 18px;
+        box-shadow: 0 18px 50px rgba(0,0,0,0.08);
+    }
 
-                </div>
+        .product-image-card img {
+            width: 100%;
+            height: 640px;
+            object-fit: cover;
+            border-radius: 24px;
+        }
 
-            </div>
+    .product-floating-badge {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 2;
+        background: #111;
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 700;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
 
-            <div class="row g-4">
+    .product-category {
+        background: #fff;
+        padding: 9px 18px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+        display: inline-block;
+        margin-bottom: 18px;
+    }
 
-                @foreach (var item in suggestions)
-                {
-                    <div class="col-md-6 col-lg-3 d-flex">
+    /* TITLE MOVED HIGHER BUT LOWER ALIGNED */
 
-                        <a asp-controller="Products"
-                           asp-action="Details"
-                           asp-route-id="@item.Id"
-                           class="text-decoration-none w-100">
+    .product-title {
+        font-size: 3.1rem;
+        font-weight: 900;
+        line-height: 1.05;
+        color: #111;
+        margin-top: 8px;
+        margin-bottom: 24px;
+        letter-spacing: -1px;
+    }
 
-                            <div class="shop-product-card h-100">
+    /* DESCRIPTION FIXED SIZE */
 
-                                <div class="shop-product-image">
+    .product-description-box {
+        background: #fff;
+        border-radius: 24px;
+        padding: 24px;
+        min-height: 190px;
+        max-height: 190px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.06);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+        margin-bottom: 28px;
+    }
 
-                                    <img src="@(string.IsNullOrEmpty(item.ImageUrl)
-                                                                                 ? "https://via.placeholder.com/300x250"
-                                                                                 : Url.Content("~/uploads/" + item.ImageUrl))" />
+    .product-description {
+        font-size: 1rem;
+        line-height: 1.9;
+        color: #666;
+        margin: 0;
+    }
 
-                        </div>
+        .product-description.collapsed {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
 
-                                <div class="shop-product-body">
+    .see-more-btn {
+        position: absolute;
+        bottom: 18px;
+        right: 18px;
+        border: none;
+        background: #111;
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+        transition: 0.2s ease;
+    }
 
-                                    <span class="product-category">
-                                        @item.Category?.Name
-                                    </span>
+        .see-more-btn:hover {
+            transform: translateY(-2px);
+            background: #000;
+        }
 
-                                    <h4>
-                                        @item.Name
-                                    </h4>
+    /* PRICE CARD */
 
-                                    <p>
-                                        @item.Description
-                                    </p>
+    .product-price-card {
+        background: #fff;
+        border-radius: 24px;
+        padding: 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 12px 35px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.06);
+        margin-bottom: 24px;
+    }
 
-                                    <div class="shop-product-footer">
+        .product-price-card h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
 
-                                        <h5>
-                                            ₱@item.Price
-                                        </h5>
+    .stock-status {
+        color: #777;
+        font-weight: 600;
+    }
 
-                                        <span>
-                                            @item.StockQuantity left
-                                        </span>
+    .stock-pill {
+        background: #f5f5f5;
+        padding: 12px 20px;
+        border-radius: 999px;
+        font-weight: 700;
+        color: #444;
+    }
 
-                                    </div>
+    /* FEATURES */
 
-                                </div>
+    .product-feature-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-bottom: 28px;
+        width: 100%;
+    }
 
-                            </div>
+    .feature-pill {
+        background: #fff;
+        min-height: 88px;
+        padding: 16px;
+        border-radius: 18px;
+        font-weight: 700;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-align: center;
+        border: 1px solid rgba(0,0,0,0.06);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+        width: 100%;
+    }
 
-                        </a>
+        .feature-pill i {
+            font-size: 1.2rem;
+        }
 
-                    </div>
+    /* ACTION BUTTONS */
+
+    .product-actions {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        width: 100%;
+    }
+
+    .action-btn {
+        width: 100%;
+        min-width: unset;
+        height: 60px;
+        border-radius: 18px;
+        font-weight: 700;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: 0.25s ease;
+        padding: 0 18px;
+    }
+
+        .action-btn i {
+            font-size: 1.05rem;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+
+    /* MODAL */
+
+    .description-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.65);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.25s ease;
+        padding: 20px;
+    }
+
+        .description-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    .description-modal-box {
+        background: #fff;
+        width: 100%;
+        max-width: 720px;
+        border-radius: 28px;
+        padding: 35px;
+        position: relative;
+        animation: modalPop 0.25s ease;
+    }
+
+    @@keyframes modalPop {
+
+        from {
+            transform: scale(0.92);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .description-modal-close {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        width: 42px;
+        height: 42px;
+        border: none;
+        border-radius: 50%;
+        background: #f2f2f2;
+        font-size: 16px;
+    }
+
+    .description-modal-box h3 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 24px;
+    }
+
+    .description-modal-content {
+        color: #555;
+        line-height: 2;
+        max-height: 60vh;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    /* REVIEWS */
+
+    .review-section {
+        padding: 90px 0;
+        background: #fff;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            color: #777;
+            font-size: 1.05rem;
+        }
+
+    .review-form-card,
+    .review-card {
+        background: #fff;
+        border-radius: 28px;
+        padding: 32px;
+        box-shadow: 0 12px 35px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .review-content {
+        background: #f8f8f8;
+        border-radius: 18px;
+        padding: 22px;
+        margin-bottom: 18px;
+    }
+
+        .review-content p {
+            margin: 0;
+            line-height: 1.9;
+            color: #444;
+        }
+
+    .review-textarea {
+        border-radius: 18px;
+        padding: 18px 20px;
+        font-size: 1rem;
+        line-height: 1.8;
+        border: 1px solid #ddd;
+        resize: none;
+    }
+
+        .review-textarea:focus {
+            box-shadow: none;
+            border-color: #111;
+        }
+
+    .review-submit-btn {
+        min-width: 220px;
+        height: 54px;
+        border-radius: 14px;
+        font-weight: 700;
+    }
+
+    .empty-review-state {
+        background: #fff;
+        border-radius: 28px;
+        padding: 70px 20px;
+        text-align: center;
+        border: 1px dashed #ddd;
+    }
+
+        .empty-review-state i {
+            font-size: 3rem;
+            color: #999;
+            margin-bottom: 18px;
+        }
+
+    /* TOAST */
+
+    .custom-toast {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #111;
+        color: #fff;
+        padding: 14px 22px;
+        border-radius: 14px;
+        z-index: 9999;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: 0.3s ease;
+        font-weight: 600;
+    }
+
+        .custom-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    /* MOBILE */
+
+    @@media (max-width: 768px) {
+
+        .product-title {
+            font-size: 2.2rem;
+        }
+
+        .product-price-card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .action-btn {
+            width: 100%;
+        }
+
+        .product-image-card img {
+            height: 420px;
+        }
+
+        .product-description-box {
+            min-height: 210px;
+            max-height: 210px;
+        }
+
+        .product-feature-list {
+            grid-template-columns: 1fr;
+        }
+
+        .product-actions {
+            grid-template-columns: 1fr;
+        }
+    }
+
+</style>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // ========================================
+        // ADD TO CART
+        // ========================================
+
+        const buttons = document.querySelectorAll(".add-to-cart-btn");
+
+        buttons.forEach(button => {
+
+            button.addEventListener("click", async function (e) {
+
+                e.preventDefault();
+
+                const productId = this.dataset.productId;
+
+                try {
+
+                    const response = await fetch(`/Cart/AddToCart?productId=${productId}`, {
+                        method: "POST"
+                    });
+
+                    if (response.ok) {
+
+                        const data = await response.json();
+
+                            if (data.success) {
+
+                                showToast("Product added to cart!");
+
+                            } else {
+
+                                showToast("Failed to add product.");
+
+                            }
+
+                        }
+                        else {
+
+                                showToast("Failed to add product.");
                         }
 
-            </div>
+                } catch {
 
-        </div>
+                    showToast("Please sign in first.");
 
-    </section>
-}
+                }
+
+            });
+
+        });
+
+        // ========================================
+        // DESCRIPTION MODAL
+        // ========================================
+
+        const seeMoreBtn = document.getElementById("seeMoreBtn");
+        const modal = document.getElementById("descriptionModal");
+        const closeModal = document.getElementById("closeDescriptionModal");
+
+        if (seeMoreBtn) {
+
+            seeMoreBtn.addEventListener("click", function () {
+
+                modal.classList.add("active");
+                document.body.style.overflow = "hidden";
+
+            });
+
+        }
+
+        if (closeModal) {
+
+            closeModal.addEventListener("click", function () {
+
+                modal.classList.remove("active");
+                document.body.style.overflow = "auto";
+
+            });
+
+        }
+
+        if (modal) {
+
+            modal.addEventListener("click", function (e) {
+
+                if (e.target === modal) {
+
+                    modal.classList.remove("active");
+                    document.body.style.overflow = "auto";
+
+                }
+
+            });
+
+        }
+
+    });
+
+    function showToast(message) {
+
+        const toast = document.createElement("div");
+
+        toast.className = "custom-toast";
+        toast.innerText = message;
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add("show");
+        }, 100);
+
+        setTimeout(() => {
+
+            toast.classList.remove("show");
+
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+
+        }, 2500);
+
+    }
+
+</script>

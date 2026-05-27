@@ -149,7 +149,7 @@
 
                                     <img src="@(string.IsNullOrEmpty(item.ImageUrl)
                                                                                          ? "https://via.placeholder.com/80"
-                                                                                         : Url.Content("~/uploads/" + item.ImageUrl))"
+                                                                                         : item.ImageUrl)"
                                                                                                                                      style="width:70px;height:70px;object-fit:cover;border-radius:16px;">
 
                                     <div>
@@ -218,8 +218,8 @@
 
                                         <a asp-action="Delete"
                                            asp-route-id="@item.Id"
-                                           class="btn btn-sm btn-danger"
-                                           style="border-radius:50px;">
+                                           class="btn btn-sm btn-danger d-flex align-items-center justify-content-center"
+                                           style="border-radius:50px; min-height:38px;">
 
                                             Delete
 

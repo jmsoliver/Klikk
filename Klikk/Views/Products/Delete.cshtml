@@ -84,8 +84,8 @@
                     <div class="shop-product-image">
 
                         <img src="@(string.IsNullOrEmpty(Model.ImageUrl)
-                                                                 ? "https://via.placeholder.com/500x300"
-                                                                 : Url.Content("~/uploads/" + Model.ImageUrl))" />
+                                 ? "https://via.placeholder.com/500x300"
+                                 : Model.ImageUrl)" />
 
                     </div>
 

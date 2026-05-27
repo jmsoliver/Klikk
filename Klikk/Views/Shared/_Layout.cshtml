@@ -82,7 +82,10 @@
 
                     <!-- SEARCH BAR -->
 
-                    <form class="d-flex mx-lg-4 my-3 my-lg-0 flex-grow-1">
+                    <form class="d-flex mx-lg-4 my-3 my-lg-0 flex-grow-1"
+                          asp-controller="Products"
+                          asp-action="Index"
+                          method="get">
 
                         <div class="klikk-search-wrapper">
 
@@ -90,6 +93,7 @@
 
                             <input class="form-control"
                                    type="search"
+                                   name="searchString"
                                    placeholder="Search products, brands, categories..." />
 
                         </div>

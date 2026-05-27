@@ -1,4 +1,4 @@
-﻿@model Klikk.Models.Product
+﻿@model Klikk.Models.ProductViewModel
 
 @{
     ViewData["Title"] = "Edit Product";
@@ -175,14 +175,15 @@
                     </div>
 
                     <!-- CURRENT IMAGE PREVIEW -->
-                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
                     {
                         <div class="col-12">
 
                             <p class="mb-2">Current Image</p>
 
-                            <img src="@Url.Content("~/uploads/" + Model.ImageUrl)"
-                                 style="max-height:200px;border-radius:12px;" />
+                            <img src="@Model.ExistingImageUrl"
+                                 style="max-height:200px;border-radius:12px;"
+                                 class="mb-3" />
 
                         </div>
                     }

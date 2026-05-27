@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Klikk.Data;
 using Klikk.Models;
 using Microsoft.AspNetCore.Hosting;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Klikk.Controllers
@@ -16,13 +18,23 @@ namespace Klikk.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly Cloudinary _cloudinary;
 
         public ProductsController(
             ApplicationDbContext context,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            IConfiguration configuration)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+
+            var account = new Account(
+                configuration["CloudinarySettings:CloudName"],
+                configuration["CloudinarySettings:ApiKey"],
+                configuration["CloudinarySettings:ApiSecret"]
+            );
+
+            _cloudinary = new Cloudinary(account);
         }
 
         // GET: Products
@@ -158,29 +170,23 @@ namespace Klikk.Controllers
         {
             if (ModelState.IsValid)
             {
-                string? uniqueFileName = null;
+                string? imageUrl = null;
 
                 if (model.ImageFile != null)
                 {
-                    string uploadsFolder =
-                        Path.Combine(
-                            _webHostEnvironment.WebRootPath,
-                            "uploads");
+                    using var stream = model.ImageFile.OpenReadStream();
 
-                    uniqueFileName =
-                        Guid.NewGuid().ToString() + "_" +
-                        model.ImageFile.FileName;
-
-                    string filePath =
-                        Path.Combine(
-                            uploadsFolder,
-                            uniqueFileName);
-
-                    using (var fileStream =
-                           new FileStream(filePath, FileMode.Create))
+                    var uploadParams = new ImageUploadParams
                     {
-                        await model.ImageFile.CopyToAsync(fileStream);
-                    }
+                        File = new FileDescription(
+                            model.ImageFile.FileName,
+                            stream)
+                    };
+
+                    var uploadResult =
+                        await _cloudinary.UploadAsync(uploadParams);
+
+                    imageUrl = uploadResult.SecureUrl.ToString();
                 }
 
                 Product product = new Product
@@ -190,7 +196,7 @@ namespace Klikk.Controllers
                     Price = model.Price,
                     StockQuantity = model.StockQuantity,
                     CategoryId = model.CategoryId,
-                    ImageUrl = uniqueFileName
+                    ImageUrl = imageUrl
                 };
 
                 _context.Add(product);
@@ -209,6 +215,83 @@ namespace Klikk.Controllers
             return View(model);
         }
 
+        // POST: Products/Edit/5
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, ProductViewModel model)
+        {
+            if (id != model.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var product = await _context.Products.FindAsync(id);
+
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                product.Name = model.Name;
+                product.Description = model.Description;
+                product.Price = model.Price;
+                product.StockQuantity = model.StockQuantity;
+                product.CategoryId = model.CategoryId;
+
+                // ========================================
+                // UPLOAD NEW IMAGE TO CLOUDINARY
+                // ========================================
+
+                if (model.ImageFile != null)
+                {
+                    using var stream = model.ImageFile.OpenReadStream();
+
+                    var uploadParams = new ImageUploadParams
+                    {
+                        File = new FileDescription(
+                            model.ImageFile.FileName,
+                            stream)
+                    };
+
+                    var uploadResult =
+                        await _cloudinary.UploadAsync(uploadParams);
+
+                    product.ImageUrl =
+                        uploadResult.SecureUrl.ToString();
+                }
+
+                try
+                {
+                    _context.Update(product);
+
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductExists(model.Id))
+                    {
+                        return NotFound();
+                    }
+
+                    throw;
+                }
+
+                return RedirectToAction(nameof(AdminIndex));
+            }
+
+            ViewData["CategoryId"] =
+                new SelectList(
+                    _context.Categories,
+                    "Id",
+                    "Name",
+                    model.CategoryId);
+
+            return View(model);
+        }
+
         // GET: Products/Edit/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
@@ -219,49 +302,31 @@ namespace Klikk.Controllers
             }
 
             var product = await _context.Products.FindAsync(id);
+
             if (product == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-            return View(product);
-        }
 
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,StockQuantity,ImageUrl,CategoryId")] Product product)
-        {
-            if (id != product.Id)
+            var viewModel = new ProductViewModel
             {
-                return NotFound();
-            }
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                StockQuantity = product.StockQuantity,
+                CategoryId = product.CategoryId,
+                ExistingImageUrl = product.ImageUrl
+            };
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-            return View(product);
+            ViewData["CategoryId"] =
+                new SelectList(
+                    _context.Categories,
+                    "Id",
+                    "Name",
+                    product.CategoryId);
+
+            return View(viewModel);
         }
 
         // GET: Products/Delete/5
@@ -297,7 +362,7 @@ namespace Klikk.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(AdminIndex));
         }
 
         private bool ProductExists(int id)

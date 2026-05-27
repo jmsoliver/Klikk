@@ -3,7 +3,7 @@
 }
 
 <!-- ========================================
-     PROFILE HERO (BRANDED)
+     PROFILE HERO (KEEP SAME)
 ======================================== -->
 
 <section class="shop-hero">
@@ -58,94 +58,213 @@
 </section>
 
 <!-- ========================================
-     PROFILE CONTENT
+     FACEBOOK STYLE PROFILE LAYOUT
 ======================================== -->
 
-<section class="shop-products-section">
+<section class="profile-modern-section">
 
     <div class="container">
 
         <div class="row g-4">
 
-            <!-- LEFT PROFILE CARD -->
+            <!-- LEFT COLUMN -->
             <div class="col-lg-4">
 
-                <div class="shop-filter-card text-center h-100 p-5">
+                <!-- PROFILE CARD -->
+                <div class="profile-modern-card">
 
-                    <!-- AVATAR -->
-                    <div class="profile-avatar mb-4">
+                    <div class="profile-cover-mini"></div>
 
-                        @(User.Identity?.Name != null
-                                                ? User.Identity.Name.Substring(0, 1).ToUpper()
-                                                : "?")
+                    <div class="profile-main-content">
+
+                        <!-- AVATAR -->
+                        <div class="profile-avatar-modern">
+
+                            @(User.Identity?.Name != null
+                                                        ? User.Identity.Name.Substring(0, 1).ToUpper()
+                                                        : "?")
+
+                        </div>
+
+                        <h3 class="profile-name">
+                            @User.Identity.Name
+                        </h3>
+
+                        <p class="profile-email">
+                            @ViewBag.Email
+                        </p>
+
+                        <span class="profile-status-badge">
+                            <i class="bi bi-patch-check-fill me-1"></i>
+                            Active Member
+                        </span>
 
                     </div>
 
-                    <h4 class="fw-bold mb-1">
-                        @User.Identity.Name
-                    </h4>
+                </div>
 
-                    <p class="text-muted mb-4">
-                        @ViewBag.Email
-                    </p>
+                <!-- QUICK LINKS -->
+                <div class="profile-modern-card mt-4">
 
-                    <span class="badge bg-success px-3 py-2">
-                        Active Member
-                    </span>
+                    <div class="card-body-modern">
+
+                        <h5 class="section-title">
+                            Quick Actions
+                        </h5>
+
+                        <div class="quick-links-list">
+
+                            <a asp-controller="Orders"
+                               asp-action="MyOrders"
+                               class="quick-link-item">
+
+                                <div class="quick-link-icon bg-orders">
+                                    <i class="bi bi-box-seam"></i>
+                                </div>
+
+                                <div>
+                                    <h6>My Orders</h6>
+                                    <span>Track and manage orders</span>
+                                </div>
+
+                                <i class="bi bi-chevron-right ms-auto"></i>
+
+                            </a>
+
+                            <a asp-controller="Wishlist"
+                               asp-action="Index"
+                               class="quick-link-item">
+
+                                <div class="quick-link-icon bg-wishlist">
+                                    <i class="bi bi-heart"></i>
+                                </div>
+
+                                <div>
+                                    <h6>My Wishlist</h6>
+                                    <span>Saved favorite products</span>
+                                </div>
+
+                                <i class="bi bi-chevron-right ms-auto"></i>
+
+                            </a>
+
+                            <a asp-area="Identity"
+                               asp-page="/Account/Manage/Index"
+                               class="quick-link-item">
+
+                                <div class="quick-link-icon bg-settings">
+                                    <i class="bi bi-gear"></i>
+                                </div>
+
+                                <div>
+                                    <h6>Account Settings</h6>
+                                    <span>Manage profile & security</span>
+                                </div>
+
+                                <i class="bi bi-chevron-right ms-auto"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            <!-- RIGHT CONTENT -->
+            <!-- RIGHT COLUMN -->
             <div class="col-lg-8">
 
-                <!-- STATS -->
-                <div class="shop-filter-card mb-4">
+                <!-- ACCOUNT OVERVIEW -->
+                <div class="profile-modern-card">
 
-                    <h5 class="fw-bold mb-4">
-                        Account Overview
-                    </h5>
+                    <div class="card-body-modern">
 
-                    <div class="row g-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
 
-                        <div class="col-md-4 text-center">
+                            <div>
 
-                            <div class="profile-stat-card">
+                                <h4 class="section-title mb-1">
+                                    Account Overview
+                                </h4>
 
-                                <h6 class="text-muted">Orders</h6>
-
-                                <h2 class="fw-bold">
-                                    @ViewBag.TotalOrders
-                                </h2>
+                                <p class="section-subtitle mb-0">
+                                    Your account activity and statistics
+                                </p>
 
                             </div>
 
                         </div>
 
-                        <div class="col-md-4 text-center">
+                        <div class="row g-4">
 
-                            <div class="profile-stat-card">
+                            <!-- ORDERS -->
+                            <div class="col-md-4">
 
-                                <h6 class="text-muted">Wishlist</h6>
+                                <div class="overview-stat-card">
 
-                                <h2 class="fw-bold">
-                                    @ViewBag.TotalWishlist
-                                </h2>
+                                    <div class="overview-icon bg-orders">
+                                        <i class="bi bi-box-seam"></i>
+                                    </div>
+
+                                    <div class="overview-content">
+
+                                        <span>Total Orders</span>
+
+                                        <h2>
+                                            @ViewBag.TotalOrders
+                                        </h2>
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
-                        </div>
+                            <!-- WISHLIST -->
+                            <div class="col-md-4">
 
-                        <div class="col-md-4 text-center">
+                                <div class="overview-stat-card">
 
-                            <div class="profile-stat-card">
+                                    <div class="overview-icon bg-wishlist">
+                                        <i class="bi bi-heart"></i>
+                                    </div>
 
-                                <h6 class="text-muted">Reviews</h6>
+                                    <div class="overview-content">
 
-                                <h2 class="fw-bold">
-                                    @ViewBag.TotalReviews
-                                </h2>
+                                        <span>Wishlist Items</span>
+
+                                        <h2>
+                                            @ViewBag.TotalWishlist
+                                        </h2>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- REVIEWS -->
+                            <div class="col-md-4">
+
+                                <div class="overview-stat-card">
+
+                                    <div class="overview-icon bg-reviews">
+                                        <i class="bi bi-star"></i>
+                                    </div>
+
+                                    <div class="overview-content">
+
+                                        <span>Total Reviews</span>
+
+                                        <h2>
+                                            @ViewBag.TotalReviews
+                                        </h2>
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
@@ -155,41 +274,58 @@
 
                 </div>
 
-                <!-- QUICK ACTIONS -->
-                <div class="shop-filter-card">
+                <!-- ACCOUNT INFO -->
+                <div class="profile-modern-card mt-4">
 
-                    <h5 class="fw-bold mb-4">
-                        Quick Actions
-                    </h5>
+                    <div class="card-body-modern">
 
-                    <div class="d-grid gap-3">
+                        <h4 class="section-title mb-4">
+                            Account Information
+                        </h4>
 
-                        <a asp-controller="Orders"
-                           asp-action="MyOrders"
-                           class="btn klikk-btn-primary">
+                        <div class="info-grid">
 
-                            <i class="bi bi-box-seam me-2"></i>
-                            My Orders
+                            <div class="info-box">
 
-                        </a>
+                                <span>Username</span>
 
-                        <a asp-controller="Wishlist"
-                           asp-action="Index"
-                           class="btn hero-secondary-btn">
+                                <h6>
+                                    @User.Identity.Name
+                                </h6>
 
-                            <i class="bi bi-heart me-2"></i>
-                            My Wishlist
+                            </div>
 
-                        </a>
+                            <div class="info-box">
 
-                        <a asp-area="Identity"
-                           asp-page="/Account/Manage/Index"
-                           class="btn btn-outline-dark">
+                                <span>Email Address</span>
 
-                            <i class="bi bi-gear me-2"></i>
-                            Account Settings
+                                <h6>
+                                    @ViewBag.Email
+                                </h6>
 
-                        </a>
+                            </div>
+
+                            <div class="info-box">
+
+                                <span>Status</span>
+
+                                <h6 class="text-success">
+                                    Active
+                                </h6>
+
+                            </div>
+
+                            <div class="info-box">
+
+                                <span>Security</span>
+
+                                <h6>
+                                    Protected
+                                </h6>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
@@ -202,3 +338,239 @@
     </div>
 
 </section>
+
+<style>
+
+    /* ========================================
+           MODERN PROFILE STYLE
+        ======================================== */
+
+    .profile-modern-section {
+        padding: 40px 0 70px;
+    }
+
+    .profile-modern-card {
+        background: #fff;
+        border-radius: 26px;
+        overflow: hidden;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .profile-cover-mini {
+        height: 120px;
+        background: linear-gradient(135deg, #ff6f4d 0%, #ff4d6d 100%);
+    }
+
+    .profile-main-content {
+        padding: 0 30px 35px;
+        text-align: center;
+        margin-top: -55px;
+    }
+
+    .profile-avatar-modern {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff6f4d, #ff4d6d);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 42px;
+        font-weight: 700;
+        margin: 0 auto 18px;
+        border: 6px solid white;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .profile-name {
+        font-size: 1.7rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .profile-email {
+        color: #777;
+        margin-bottom: 18px;
+    }
+
+    .profile-status-badge {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(25, 135, 84, 0.12);
+        color: #198754;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .card-body-modern {
+        padding: 30px;
+    }
+
+    .section-title {
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    .section-subtitle {
+        color: #777;
+        font-size: 0.95rem;
+    }
+
+    /* ========================================
+           QUICK LINKS
+        ======================================== */
+
+    .quick-links-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .quick-link-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px;
+        border-radius: 18px;
+        text-decoration: none;
+        color: inherit;
+        transition: 0.25s ease;
+        border: 1px solid rgba(0,0,0,0.06);
+    }
+
+        .quick-link-item:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            color: inherit;
+        }
+
+        .quick-link-item h6 {
+            margin-bottom: 2px;
+            font-weight: 700;
+        }
+
+        .quick-link-item span {
+            font-size: 0.88rem;
+            color: #777;
+        }
+
+    .quick-link-icon,
+    .overview-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    /* ========================================
+           OVERVIEW STATS
+        ======================================== */
+
+    .overview-stat-card {
+        background: #fafafa;
+        border-radius: 22px;
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        height: 100%;
+        border: 1px solid rgba(0,0,0,0.05);
+        transition: 0.25s ease;
+    }
+
+        .overview-stat-card:hover {
+            transform: translateY(-4px);
+            background: white;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        }
+
+    .overview-content span {
+        color: #777;
+        font-size: 0.9rem;
+    }
+
+    .overview-content h2 {
+        margin: 5px 0 0;
+        font-size: 2rem;
+        font-weight: 800;
+    }
+
+    /* ========================================
+           INFO GRID
+        ======================================== */
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+    }
+
+    .info-box {
+        background: #fafafa;
+        border-radius: 18px;
+        padding: 22px;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+        .info-box span {
+            display: block;
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .info-box h6 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+    /* ========================================
+           COLORS
+        ======================================== */
+
+    .bg-orders {
+        background: linear-gradient(135deg, #ff6f4d, #ff9a44);
+    }
+
+    .bg-wishlist {
+        background: linear-gradient(135deg, #ff4d6d, #ff758f);
+    }
+
+    .bg-settings {
+        background: linear-gradient(135deg, #495057, #6c757d);
+    }
+
+    .bg-reviews {
+        background: linear-gradient(135deg, #f59f00, #fcc419);
+    }
+
+    /* ========================================
+           MOBILE
+        ======================================== */
+
+    @@media (max-width: 768px) {
+
+        .profile-main-content {
+            padding: 0 20px 25px;
+        }
+
+        .card-body-modern {
+            padding: 22px;
+        }
+
+        .overview-stat-card {
+            padding: 20px;
+        }
+    }
+
+</style>
