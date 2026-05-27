@@ -15,6 +15,6 @@ namespace Klikk.Models
         public Product? Product { get; set; }
 
         public DateTime AddedDate { get; set; } =
-            DateTime.Now;
+            DateTime.UtcNow;
     }
 }

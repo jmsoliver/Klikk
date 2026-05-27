@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace Klikk.Models
 {
@@ -14,7 +15,7 @@ namespace Klikk.Models
         [Required]
         public string UserId { get; set; }
 
-        public ApplicationUser? User { get; set; }
+        public string? UserName { get; set; }
 
         [Required]
         [Range(1, 5)]

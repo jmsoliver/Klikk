@@ -25,7 +25,7 @@ namespace Klikk.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Klikk.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Klikk.Models.IdentityUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -500,7 +500,7 @@ namespace Klikk.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Klikk.Models.ApplicationUser", "User")
+                    b.HasOne("Klikk.Models.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -533,7 +533,7 @@ namespace Klikk.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Klikk.Models.ApplicationUser", null)
+                    b.HasOne("Klikk.Models.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -542,7 +542,7 @@ namespace Klikk.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Klikk.Models.ApplicationUser", null)
+                    b.HasOne("Klikk.Models.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -557,7 +557,7 @@ namespace Klikk.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Klikk.Models.ApplicationUser", null)
+                    b.HasOne("Klikk.Models.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -566,7 +566,7 @@ namespace Klikk.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Klikk.Models.ApplicationUser", null)
+                    b.HasOne("Klikk.Models.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
