@@ -168,10 +168,17 @@ namespace Klikk.Controllers
             return new StatusCodeResult(303);
         }
 
+        [AllowAnonymous]
+
         public async Task<IActionResult> PaymentSuccess()
         {
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Challenge();
+            }
 
             var recentOrder = await _context.Orders
                 .Where(o => o.UserId == userId && o.Status == "Paid")
@@ -205,7 +212,8 @@ namespace Klikk.Controllers
             {
                 UserId = userId,
                 TotalAmount = total,
-                Status = "Paid"
+                Status = "Paid",
+                OrderDate = DateTime.UtcNow
             };
 
             _context.Orders.Add(order);
@@ -269,6 +277,8 @@ namespace Klikk.Controllers
 
             return View();
         }
+
+        [AllowAnonymous]
 
         public IActionResult PaymentCancelled()
         {
