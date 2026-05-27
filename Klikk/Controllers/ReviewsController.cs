@@ -18,13 +18,37 @@ namespace Klikk.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            int productId,
-            int rating,
-            string comment)
+    int productId,
+    int rating,
+    string comment)
         {
             var userId =
                 User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var productExists =
+                await _context.Products.AnyAsync(p => p.Id == productId);
+
+            if (!productExists)
+            {
+                return NotFound();
+            }
+
+            if (rating < 1 || rating > 5)
+            {
+                TempData["Error"] = "Invalid rating.";
+
+                return RedirectToAction(
+                    "Details",
+                    "Products",
+                    new { id = productId });
+            }
 
             Review review = new Review
             {
@@ -37,6 +61,8 @@ namespace Klikk.Controllers
             _context.Reviews.Add(review);
 
             await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Review submitted successfully.";
 
             return RedirectToAction(
                 "Details",

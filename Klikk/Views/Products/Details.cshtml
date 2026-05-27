@@ -284,6 +284,8 @@
                       asp-action="Create"
                       method="post">
 
+                    @Html.AntiForgeryToken()
+
                     <input type="hidden"
                            name="productId"
                            value="@Model.Id" />

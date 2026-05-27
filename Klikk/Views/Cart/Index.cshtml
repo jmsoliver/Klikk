@@ -210,13 +210,21 @@
 
                                     </div>
 
-                                    <div class="cart-checkbox me-3">
+                                    <div class="cart-checkbox">
 
-                                        <input type="checkbox"
-                                               class="cart-check"
-                                               value="@item.Id"
-                                               checked
-                                               onchange="updateCheckoutSelection()" />
+                                        <label class="custom-cart-check">
+
+                                            <input type="checkbox"
+                                                   class="cart-check"
+                                                   value="@item.Id"
+                                                   checked
+                                                   onchange="updateCheckoutSelection()" />
+
+                                            <span class="checkmark">
+                                                <i class="bi bi-check-lg"></i>
+                                            </span>
+
+                                        </label>
 
                                     </div>
 
