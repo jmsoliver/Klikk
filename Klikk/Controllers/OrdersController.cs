@@ -170,24 +170,29 @@ namespace Klikk.Controllers
 
         public async Task<IActionResult> PaymentSuccess()
         {
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var selectedCartItems =
-    HttpContext.Session.GetString(
-        "SelectedCartItems");
+            var recentOrder = await _context.Orders
+                .Where(o => o.UserId == userId && o.Status == "Paid")
+                .OrderByDescending(o => o.OrderDate)
+                .FirstOrDefaultAsync();
 
-            var selectedIds =
-                selectedCartItems
-                    .Split(',')
-                    .Select(int.Parse)
-                    .ToList();
+            if (recentOrder != null &&
+                recentOrder.OrderDate > DateTime.UtcNow.AddMinutes(-2))
+            {
+                return RedirectToAction("OrderSuccess");
+            }
 
             var cartItems = await _context.CartItems
                 .Include(c => c.Product)
-                .Where(c =>
-                    c.UserId == userId &&
-                    selectedIds.Contains(c.Id))
+                .Where(c => c.UserId == userId)
                 .ToListAsync();
+
+            if (cartItems.Count == 0)
+            {
+                return RedirectToAction("OrderSuccess");
+            }
 
             decimal total = 0;
 
@@ -218,6 +223,11 @@ namespace Klikk.Controllers
                 };
 
                 _context.OrderItems.Add(orderItem);
+
+                if (item.Product.StockQuantity < item.Quantity)
+                {
+                    throw new Exception("Insufficient stock for product: " + item.Product.Name);
+                }
 
                 item.Product.StockQuantity -= item.Quantity;
             }
@@ -258,50 +268,6 @@ namespace Klikk.Controllers
             }
 
             return View();
-        }
-
-        [Authorize]
-        public async Task<IActionResult> PaymentSuccessBuyNow(int productId)
-        {
-            var userId =
-                User.FindFirstValue(
-                    ClaimTypes.NameIdentifier);
-
-            var product =
-                await _context.Products
-                    .FirstOrDefaultAsync(p => p.Id == productId);
-
-            if (product == null)
-            {
-                return RedirectToAction("Index", "Products");
-            }
-
-            Order order = new Order
-            {
-                UserId = userId,
-                TotalAmount = product.Price,
-                Status = "Paid"
-            };
-
-            _context.Orders.Add(order);
-
-            await _context.SaveChangesAsync();
-
-            OrderItem orderItem = new OrderItem
-            {
-                OrderId = order.Id,
-                ProductId = product.Id,
-                Quantity = 1,
-                Price = product.Price
-            };
-
-            _context.OrderItems.Add(orderItem);
-
-            product.StockQuantity -= 1;
-
-            await _context.SaveChangesAsync();
-
-            return View("PaymentSuccess");
         }
 
         public IActionResult PaymentCancelled()
@@ -357,6 +323,11 @@ namespace Klikk.Controllers
                 _context.OrderItems.Add(orderItem);
 
                 // DEDUCT STOCK
+
+                if (item.Product.StockQuantity < item.Quantity)
+                {
+                    throw new Exception("Insufficient stock for product: " + item.Product.Name);
+                }
 
                 item.Product.StockQuantity -= item.Quantity;
             }
@@ -454,42 +425,76 @@ namespace Klikk.Controllers
         [Authorize]
         public async Task<IActionResult> BuyNowSuccess(int productId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var product = await _context.Products
-                .FirstOrDefaultAsync(p => p.Id == productId);
-
-            if (product == null)
+            try
             {
-                return NotFound();
+                var userId =
+                    User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var product =
+                    await _context.Products
+                        .FirstOrDefaultAsync(p => p.Id == productId);
+
+                if (product == null)
+                {
+                    return RedirectToAction("Index", "Products");
+                }
+
+                if (product.StockQuantity < 1)
+                {
+                    TempData["Error"] = "Out of stock.";
+                    return RedirectToAction("Details", "Products", new { id = productId });
+                }
+
+                // Prevent duplicate order on refresh
+                var recentOrder =
+                    await _context.Orders
+                        .Where(o =>
+                            o.UserId == userId &&
+                            o.Status == "Paid")
+                        .OrderByDescending(o => o.OrderDate)
+                        .FirstOrDefaultAsync();
+
+                if (recentOrder != null &&
+                    recentOrder.OrderDate > DateTime.UtcNow.AddMinutes(-1))
+                {
+                    return RedirectToAction("OrderSuccess");
+                }
+
+                // Create order
+                var order = new Order
+                {
+                    UserId = userId,
+                    TotalAmount = product.Price,
+                    Status = "Paid",
+                    OrderDate = DateTime.UtcNow
+                };
+
+                _context.Orders.Add(order);
+
+                await _context.SaveChangesAsync();
+
+                // Create order item
+                var orderItem = new OrderItem
+                {
+                    OrderId = order.Id,
+                    ProductId = product.Id,
+                    Quantity = 1,
+                    Price = product.Price
+                };
+
+                _context.OrderItems.Add(orderItem);
+
+                // Deduct stock
+                product.StockQuantity -= 1;
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("OrderSuccess");
             }
-
-            Order order = new Order
+            catch (Exception ex)
             {
-                UserId = userId,
-                TotalAmount = product.Price,
-                Status = "Paid"
-            };
-
-            _context.Orders.Add(order);
-
-            await _context.SaveChangesAsync();
-
-            OrderItem orderItem = new OrderItem
-            {
-                OrderId = order.Id,
-                ProductId = product.Id,
-                Quantity = 1,
-                Price = product.Price
-            };
-
-            _context.OrderItems.Add(orderItem);
-
-            product.StockQuantity -= 1;
-
-            await _context.SaveChangesAsync();
-
-            return View("PaymentSuccess");
+                return Content(ex.InnerException?.Message ?? ex.Message);
+            }
         }
 
     }

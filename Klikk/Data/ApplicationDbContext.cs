@@ -27,4 +27,5 @@ namespace Klikk.Data
 
         public DbSet<ProductGalleryImage> ProductGalleryImages { get; set; }
     }
+
 }
