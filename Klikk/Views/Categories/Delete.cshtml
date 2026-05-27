@@ -1,27 +1,72 @@
 ﻿@model Klikk.Models.Category
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Category";
 }
 
-<h1>Delete</h1>
+<section class="shop-hero">
+    <div class="container">
+        <div class="shop-hero-card">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <span class="shop-badge">
+                        🗑️ Danger Zone
+                    </span>
+                    <h1>
+                        Delete <span>Category</span>
+                    </h1>
+                    <p class="text-muted">
+                        Are you sure you want to permanently remove this category?
+                        This action cannot be undone and may affect associated products.
+                    </p>
+                </div>
+                <div class="col-lg-5 text-lg-end">
+                    <div class="shop-mini-stats">
+                        <div class="mini-stat-card">
+                            <h3>⚠️</h3>
+                            <span>Permanent Action</span>
+                        </div>
+                        <div class="mini-stat-card">
+                            <h3>📂</h3>
+                            <span>Category Update</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Category</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+<section class="shop-products-section">
+    <div class="container">
+        <div class="shop-filter-card">
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <label class="form-label text-secondary">
+                        Category Name to be Removed
+                    </label>
+                    <div class="form-control klikk-input bg-light text-muted" style="pointer-events: none;">
+                        @Html.DisplayFor(model => model.Name)
+                    </div>
+                </div>
+            </div>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-danger flex-grow-1 py-2">
+                                Confirm Delete
+                            </button>
+                            <a asp-action="Index" class="btn btn-light border px-4 py-2">
+                                Cancel & Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

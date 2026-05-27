@@ -1,24 +1,80 @@
 ﻿@model Klikk.Models.Category
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Category Details";
 }
 
-<h1>Details</h1>
+<!-- ========================================
+     CATEGORY HERO
+======================================== -->
+<section class="shop-hero">
+    <div class="container">
+        <div class="shop-hero-card">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <span class="shop-badge">
+                        🔍 Category Overview
+                    </span>
+                    <h1>
+                        Category <span>Details</span>
+                    </h1>
+                    <p>
+                        Review the information for this specific product group.
+                        From here you can quickly view, jump into editing, or return to management.
+                    </p>
+                </div>
+                <div class="col-lg-5 text-lg-end">
+                    <div class="shop-mini-stats">
+                        <div class="mini-stat-card">
+                            <h3>📂</h3>
+                            <span>Organized Group</span>
+                        </div>
+                        <div class="mini-stat-card">
+                            <h3>👁️</h3>
+                            <span>Read-Only View</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<div>
-    <h4>Category</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<!-- ========================================
+     CATEGORY DETAILS CARD
+======================================== -->
+<section class="shop-products-section">
+    <div class="container">
+        <div class="shop-filter-card">
+
+            <div class="row g-4 mb-4">
+                <!-- CATEGORY NAME DISPLAY -->
+                <div class="col-12">
+                    <label class="form-label text-secondary">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </label>
+                    <div class="form-control klikk-input bg-light font-weight-bold" style="pointer-events: none; opacity: 0.85;">
+                        @Html.DisplayFor(model => model.Name)
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex gap-3">
+                        <a asp-action="Edit" asp-route-id="@Model?.Id"
+                           class="btn klikk-btn-primary flex-grow-1 text-center py-2">
+                            📝 Edit Category
+                        </a>
+                        <a asp-action="Index"
+                           class="btn btn-light border px-4 py-2">
+                            Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
