@@ -22,5 +22,10 @@ namespace Klikk.Models
         public string? ExistingImageUrl { get; set; }
 
         public IFormFile? ImageFile { get; set; }
+
+        public List<IFormFile>? GalleryImages { get; set; }
+
+        public List<ProductGalleryImage>? ExistingGalleryImages { get; set; }
+
     }
 }

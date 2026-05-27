@@ -111,6 +111,7 @@ namespace Klikk.Controllers
             var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Reviews)
+                .Include(p => p.GalleryImages)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (product == null)
@@ -168,6 +169,19 @@ namespace Klikk.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductViewModel model)
         {
+            // ========================================
+            // VALIDATE GALLERY IMAGE COUNT
+            // ========================================
+
+            if (model.GalleryImages == null ||
+                model.GalleryImages.Count < 3 ||
+                model.GalleryImages.Count > 5)
+            {
+                ModelState.AddModelError(
+                    "GalleryImages",
+                    "Please upload between 3 and 5 gallery images.");
+            }
+
             if (ModelState.IsValid)
             {
                 string? imageUrl = null;
@@ -203,6 +217,38 @@ namespace Klikk.Controllers
 
                 await _context.SaveChangesAsync();
 
+                // ========================================
+                // SAVE GALLERY IMAGES
+                // ========================================
+
+                if (model.GalleryImages != null)
+                {
+                    foreach (var image in model.GalleryImages)
+                    {
+                        using var stream = image.OpenReadStream();
+
+                        var uploadParams = new ImageUploadParams
+                        {
+                            File = new FileDescription(
+                                image.FileName,
+                                stream)
+                        };
+
+                        var uploadResult =
+                            await _cloudinary.UploadAsync(uploadParams);
+
+                        var galleryImage = new ProductGalleryImage
+                        {
+                            ProductId = product.Id,
+                            ImageUrl = uploadResult.SecureUrl.ToString()
+                        };
+
+                        _context.ProductGalleryImages.Add(galleryImage);
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -228,7 +274,9 @@ namespace Klikk.Controllers
 
             if (ModelState.IsValid)
             {
-                var product = await _context.Products.FindAsync(id);
+                var product = await _context.Products
+                    .Include(p => p.GalleryImages)
+                    .FirstOrDefaultAsync(p => p.Id == id);
 
                 if (product == null)
                 {
@@ -265,6 +313,47 @@ namespace Klikk.Controllers
 
                 try
                 {
+                    // ========================================
+                    // REPLACE GALLERY IMAGES IF NEW ONES EXIST
+                    // ========================================
+
+                    if (model.GalleryImages != null &&
+                        model.GalleryImages.Count > 0)
+                    {
+                        // REMOVE OLD GALLERY IMAGES
+
+                        if (product.GalleryImages != null)
+                        {
+                            _context.ProductGalleryImages.RemoveRange(
+                                product.GalleryImages);
+                        }
+
+                        // ADD NEW GALLERY IMAGES
+
+                        foreach (var image in model.GalleryImages)
+                        {
+                            using var stream = image.OpenReadStream();
+
+                            var uploadParams = new ImageUploadParams
+                            {
+                                File = new FileDescription(
+                                    image.FileName,
+                                    stream)
+                            };
+
+                            var uploadResult =
+                                await _cloudinary.UploadAsync(uploadParams);
+
+                            var galleryImage = new ProductGalleryImage
+                            {
+                                ProductId = product.Id,
+                                ImageUrl = uploadResult.SecureUrl.ToString()
+                            };
+
+                            _context.ProductGalleryImages.Add(galleryImage);
+                        }
+                    }
+
                     _context.Update(product);
 
                     await _context.SaveChangesAsync();
@@ -301,7 +390,9 @@ namespace Klikk.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products
+                .Include(p => p.GalleryImages)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (product == null)
             {
@@ -316,7 +407,8 @@ namespace Klikk.Controllers
                 Price = product.Price,
                 StockQuantity = product.StockQuantity,
                 CategoryId = product.CategoryId,
-                ExistingImageUrl = product.ImageUrl
+                ExistingImageUrl = product.ImageUrl,
+                ExistingGalleryImages = product.GalleryImages?.ToList()
             };
 
             ViewData["CategoryId"] =

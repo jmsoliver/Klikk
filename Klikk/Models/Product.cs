@@ -29,5 +29,7 @@ namespace Klikk.Models
         public Category? Category { get; set; }
 
         public ICollection<Review>? Reviews { get; set; }
+
+        public ICollection<ProductGalleryImage>? GalleryImages { get; set; }
     }
 }

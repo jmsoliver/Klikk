@@ -24,5 +24,7 @@ namespace Klikk.Data
         public DbSet<Review> Reviews { get; set; }
 
         public DbSet<WishlistItem> WishlistItems { get; set; }
+
+        public DbSet<ProductGalleryImage> ProductGalleryImages { get; set; }
     }
 }

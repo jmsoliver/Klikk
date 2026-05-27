@@ -297,10 +297,10 @@
 
                                 </h4>
 
-                                <p>
+                                <p class="product-description-clamp">
 
-                                    @(item.Description.Length > 90
-                                                                ? item.Description.Substring(0, 90) + "..."
+                                    @(string.IsNullOrEmpty(item.Description)
+                                                                ? "No description available."
                                                                 : item.Description)
 
                         </p>
@@ -468,3 +468,46 @@
 
     }
 </script>
+<style>
+    .shop-products-section .shop-product-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .shop-products-section .shop-product-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .shop-products-section .product-description-clamp {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.5;
+        min-height: 72px;
+        max-height: 72px;
+    }
+
+    .shop-products-section .shop-hover-actions {
+        margin-top: auto;
+    }
+
+    .shop-products-section .shop-buy-btn,
+    .shop-products-section .shop-add-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-align: center;
+    }
+
+        .shop-products-section .shop-buy-btn i,
+        .shop-products-section .shop-add-btn i {
+            margin: 0;
+            line-height: 1;
+        }
+</style>

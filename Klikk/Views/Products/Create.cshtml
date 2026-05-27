@@ -154,16 +154,38 @@
 
                     </div>
 
-                    <!-- IMAGE -->
+                    <!-- THUMBNAIL IMAGE -->
                     <div class="col-lg-6">
 
                         <label class="form-label">
-                            Product Image
+                            Thumbnail Image
                         </label>
 
                         <input asp-for="ImageFile"
                                type="file"
                                class="form-control klikk-input" />
+
+                        <small class="text-muted">
+                            Main image shown in shop cards.
+                        </small>
+
+                    </div>
+
+                    <!-- GALLERY IMAGES -->
+                    <div class="col-lg-6">
+
+                        <label class="form-label">
+                            Gallery Images (3–5)
+                        </label>
+
+                        <input asp-for="GalleryImages"
+                               type="file"
+                               multiple
+                               class="form-control klikk-input" />
+
+                        <small class="text-muted">
+                            Upload at least 3 and maximum 5 additional images.
+                        </small>
 
                     </div>
 

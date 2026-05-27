@@ -413,7 +413,7 @@
 
         </div>
 
-        <div class="row g-4">
+        <div class="row g-4 align-items-start">
 
             @foreach (var item in Model)
             {
@@ -472,12 +472,10 @@
 
                             </h4>
 
-                            <p>
+                            <p class="product-description-clamp">
 
                                 @(string.IsNullOrEmpty(item.Description)
                                                             ? "No description available."
-                                                            : item.Description.Length > 90
-                                                            ? item.Description.Substring(0, 90) + "..."
                                                             : item.Description)
 
                         </p>
@@ -523,7 +521,7 @@
                                    class="shop-buy-btn"
                                    onclick="event.stopPropagation();">
 
-                                    <i class="bi bi-lightning-charge-fill"></i>
+                                    <i class="bi bi-eye"></i>
 
                                     View Product
 
@@ -620,3 +618,28 @@
 
     }
 </script>
+
+<style>
+    .trending-section .shop-product-card {
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+        .trending-section .shop-product-card:hover {
+            transform: translateY(-8px) !important;
+            z-index: 2;
+        }
+
+            .trending-section .shop-product-card:hover ~ .shop-product-card {
+                transform: none !important;
+            }
+
+    .trending-section .product-description-clamp {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-height: 72px;
+        line-height: 1.5;
+    }
+</style>
