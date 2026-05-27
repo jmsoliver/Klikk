@@ -313,10 +313,11 @@
 
                     </div>
 
-                    <textarea name="comment"
+                    <textarea name="Comment"
                           class="form-control review-textarea"
                           rows="5"
-                          placeholder="Share your experience with this product. Talk about the quality, packaging, delivery, or overall satisfaction."></textarea>
+                          placeholder="Share your experience with this product. Talk about the quality, packaging, delivery, or overall satisfaction."
+                          required></textarea>
 
                     <button type="submit"
                             class="btn klikk-btn-primary review-submit-btn mt-4">
@@ -340,14 +341,44 @@
 
                         <div class="review-card">
 
-                            <div class="review-stars mb-3">
+                            <!-- REVIEW HEADER -->
 
-                                @for (int i = 1; i <= 5; i++)
-                                {
-                                    <span class="@(i <= review.Rating ? "text-warning" : "text-muted") fs-5">★</span>
-                                }
+                            <div class="review-header">
+
+                                <div class="review-user">
+
+                                    <div class="review-avatar">
+
+                                        <i class="bi bi-person-fill"></i>
+
+                                    </div>
+
+                                    <div class="review-user-info">
+
+                                        <h6>
+                                            @(review.User?.UserName ?? "Anonymous User")
+                                        </h6>
+
+                                        <small class="review-date">
+                                            @review.ReviewDate.ToString("MMM dd, yyyy")
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="review-stars">
+
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <span class="@(i <= review.Rating ? "text-warning" : "text-muted")">★</span>
+                                    }
+
+                                </div>
 
                             </div>
+
+                            <!-- REVIEW CONTENT -->
 
                             <div class="review-content">
 
@@ -356,10 +387,6 @@
                                 </p>
 
                             </div>
-
-                            <small class="review-date">
-                                @review.ReviewDate.ToString("MMM dd, yyyy")
-                            </small>
 
                         </div>
 
@@ -791,63 +818,99 @@
             font-size: 1.05rem;
         }
 
-    .review-form-card,
+    /* ========================================
+       REVIEW CARD
+    ======================================== */
+
     .review-card {
         background: #fff;
-        border-radius: 28px;
-        padding: 32px;
-        box-shadow: 0 12px 35px rgba(0,0,0,0.06);
+        border-radius: 24px;
+        padding: 26px;
         border: 1px solid rgba(0,0,0,0.06);
+        box-shadow: 0 10px 28px rgba(0,0,0,0.05);
+        height: 100%;
+        transition: all 0.25s ease;
+    }
+
+        .review-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+        }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .review-user {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .review-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: #ff613a;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.45rem;
+        flex-shrink: 0;
+    }
+
+    .review-user-info h6 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 800;
+        color: #111;
+    }
+
+    .review-date {
+        color: #888;
+        font-size: 0.82rem;
+    }
+
+    .review-stars {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        font-size: 2rem;
+        flex-shrink: 0;
     }
 
     .review-content {
-        background: #f8f8f8;
+        background: #f8f9fb;
         border-radius: 18px;
-        padding: 22px;
-        margin-bottom: 18px;
+        padding: 20px;
+        border: 1px solid rgba(0,0,0,0.04);
     }
 
         .review-content p {
             margin: 0;
-            line-height: 1.9;
             color: #444;
+            line-height: 1.85;
+            font-size: 0.95rem;
         }
 
-    .review-textarea {
-        border-radius: 18px;
-        padding: 18px 20px;
-        font-size: 1rem;
-        line-height: 1.8;
-        border: 1px solid #ddd;
-        resize: none;
-    }
+    /* MOBILE */
 
-        .review-textarea:focus {
-            box-shadow: none;
-            border-color: #111;
+    @@media (max-width: 576px) {
+
+        .review-header {
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-    .review-submit-btn {
-        min-width: 220px;
-        height: 54px;
-        border-radius: 14px;
-        font-weight: 700;
-    }
-
-    .empty-review-state {
-        background: #fff;
-        border-radius: 28px;
-        padding: 70px 20px;
-        text-align: center;
-        border: 1px dashed #ddd;
-    }
-
-        .empty-review-state i {
-            font-size: 3rem;
-            color: #999;
-            margin-bottom: 18px;
+        .review-stars {
+            margin-left: 66px;
         }
-
+    }
     /* TOAST */
 
     .custom-toast {

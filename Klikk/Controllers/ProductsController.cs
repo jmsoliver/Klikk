@@ -111,6 +111,7 @@ namespace Klikk.Controllers
             var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Reviews)
+                .ThenInclude(r => r.User)
                 .Include(p => p.GalleryImages)
                 .FirstOrDefaultAsync(m => m.Id == id);
 

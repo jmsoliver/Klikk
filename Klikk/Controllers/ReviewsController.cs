@@ -22,7 +22,7 @@ namespace Klikk.Controllers
         public async Task<IActionResult> Create(
     int productId,
     int rating,
-    string comment)
+    string Comment)
         {
             var userId =
                 User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -53,14 +53,21 @@ namespace Klikk.Controllers
             Review review = new Review
             {
                 ProductId = productId,
-                UserId = userId,
+                UserId = userId ?? "",
                 Rating = rating,
-                Comment = comment
+                Comment = Comment
             };
 
-            _context.Reviews.Add(review);
+            try
+            {
+                _context.Reviews.Add(review);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.ToString());
+            }
 
             TempData["Success"] = "Review submitted successfully.";
 

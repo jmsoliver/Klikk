@@ -14,6 +14,8 @@ namespace Klikk.Models
         [Required]
         public string UserId { get; set; }
 
+        public ApplicationUser? User { get; set; }
+
         [Required]
         [Range(1, 5)]
         public int Rating { get; set; }
@@ -23,6 +25,6 @@ namespace Klikk.Models
         public string Comment { get; set; }
 
         public DateTime ReviewDate { get; set; } =
-            DateTime.Now;
+            DateTime.UtcNow;
     }
 }
