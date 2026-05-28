@@ -61,19 +61,35 @@ namespace Klikk.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "New password is required.")]
+
+            [StringLength(
+    100,
+    ErrorMessage = "Password must be at least {2} characters long.",
+    MinimumLength = 8)]
+
+            [RegularExpression(
+    @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$",
+    ErrorMessage = "Password must contain uppercase, lowercase, and a number."
+)]
+
             [DataType(DataType.Password)]
-            [Display(Name = "New password")]
+
             public string NewPassword { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            [Required(ErrorMessage = "Please confirm your password.")]
+
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+
+            [Compare(
+    "NewPassword",
+    ErrorMessage = "Passwords do not match."
+)]
+
             public string ConfirmPassword { get; set; }
         }
 

@@ -111,6 +111,7 @@
                                 </div>
 
                                 <!-- EMAIL -->
+                                <!-- EMAIL -->
 
                                 <div class="auth-input-group">
 
@@ -123,7 +124,10 @@
                                     <input asp-for="Input.Email"
                                            class="form-control auth-input"
                                            autocomplete="username"
-                                           placeholder="name@example.com" />
+                                           placeholder="name@example.com"
+                                           required
+                                           type="email"
+                                           title="Enter a valid email address" />
 
                                     <span asp-validation-for="Input.Email"
                                           class="text-danger">
@@ -131,6 +135,7 @@
 
                                 </div>
 
+                                <!-- PASSWORD -->
                                 <!-- PASSWORD -->
 
                                 <div class="auth-input-group">
@@ -144,11 +149,19 @@
                                     <input asp-for="Input.Password"
                                            class="form-control auth-input"
                                            autocomplete="new-password"
-                                           placeholder="Create a password" />
+                                           placeholder="Create a password"
+                                           required
+                                           minlength="8"
+                                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+                                           title="Password must contain uppercase, lowercase, and a number." />
 
                                     <span asp-validation-for="Input.Password"
                                           class="text-danger">
                                     </span>
+
+                                    <small class="text-muted">
+                                        Minimum 8 characters with uppercase, lowercase, and number.
+                                    </small>
 
                                 </div>
 
