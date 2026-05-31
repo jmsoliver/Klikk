@@ -212,7 +212,7 @@
 
                                     <div class="cart-checkbox">
 
-                                        <label class="custom-cart-check">
+                                        <label class="custom-cart-check" title="Include in checkout">
 
                                             <input type="checkbox"
                                                    class="cart-check"
@@ -223,6 +223,8 @@
                                             <span class="checkmark">
                                                 <i class="bi bi-check-lg"></i>
                                             </span>
+
+                                            <span class="check-label">Include in checkout</span>
 
                                         </label>
 
@@ -375,3 +377,58 @@
     </script>
 
 }
+
+<style>
+    .cart-checkbox {
+        margin-top: 12px;
+    }
+
+    .custom-cart-check {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+        .custom-cart-check input[type="checkbox"] {
+            display: none;
+        }
+
+        .custom-cart-check .checkmark {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            color: transparent;
+            flex-shrink: 0;
+        }
+
+        .custom-cart-check input[type="checkbox"]:checked + .checkmark {
+            background-color: #FF6F4D;
+            border-color: #FF6F4D;
+            color: #fff;
+        }
+
+        .custom-cart-check:hover .checkmark {
+            border-color: #FF6F4D;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+
+    .check-label {
+        font-size: 0.82rem;
+        color: #6b7280;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+
+    .custom-cart-check input[type="checkbox"]:checked ~ .check-label {
+        color: #FF6F4D;
+    }
+</style>
