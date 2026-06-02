@@ -55,13 +55,25 @@ namespace Klikk.Controllers
                 .Include(p => p.Category)
                 .AsQueryable();
 
-            // SEARCH
+            // SEARCH (case-insensitive)
 
-            if (!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrWhiteSpace(searchString))
             {
-                products = products.Where(p =>
-                    p.Name.Contains(searchString) ||
-                    p.Description.Contains(searchString));
+                var terms = searchString
+                    .Trim()
+                    .ToLower()
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var term in terms)
+                {
+                    products = products.Where(p =>
+                        p.Name.ToLower().Contains(term) ||
+                        (p.Description != null &&
+                         p.Description.ToLower().Contains(term)) ||
+                        (p.Category != null &&
+                         p.Category.Name.ToLower().Contains(term))
+                    );
+                }
             }
 
             // CATEGORY FILTER
@@ -142,10 +154,12 @@ namespace Klikk.Controllers
         {
             var products = _context.Products.AsQueryable();
 
-            if (!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrWhiteSpace(searchString))
             {
+                searchString = searchString.Trim().ToLower();
+
                 products = products.Where(p =>
-                    p.Name.Contains(searchString));
+                    p.Name.ToLower().Contains(searchString));
             }
 
             return View(await products.ToListAsync());
