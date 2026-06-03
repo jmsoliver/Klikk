@@ -24,6 +24,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddScoped<EmailService>();
 
 builder.Services.AddSession(options =>
