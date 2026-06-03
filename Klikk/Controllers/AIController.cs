@@ -72,14 +72,16 @@ Be helpful, concise and friendly.
             var json = JsonSerializer.Serialize(body);
 
             var response = await client.PostAsync(
-                "https://api.groq.com/openai/v1/chat/completions",
-                new StringContent(
-                    json,
-                    Encoding.UTF8,
-                    "application/json"));
+    "https://api.groq.com/openai/v1/chat/completions",
+    new StringContent(json, Encoding.UTF8, "application/json"));
 
-            var result =
-    await response.Content.ReadAsStringAsync();
+            var result = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("GROQ ERROR: " + result);
+                return StatusCode((int)response.StatusCode, result);
+            }
 
             Console.WriteLine("========== GROQ ==========");
             Console.WriteLine(result);
